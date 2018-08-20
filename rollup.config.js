@@ -77,6 +77,7 @@ export default {
       // are making.
       replace({
          'process.env.NODE_ENV': JSON.stringify( 'production' )
+		 //'process.env.NODE_ENV': JSON.stringify( 'development' )
       }),
  
       // configuration for the uglify minifier.

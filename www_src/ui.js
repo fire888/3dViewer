@@ -5,7 +5,6 @@ import * as Redux from 'redux'
 import * as ReactRedux from 'react-redux'
 import { Provider } from 'react-redux'
 
-//alert('!')
 
 /*******************************************************************/
 
@@ -111,15 +110,12 @@ class Model extends React.Component {
 }
 
 
-
-
-
 /*******************************************************************/
 
 const initUi = () => {
   ReactDOM.render(
     <App />,
-    document.getElementById('ui')
+    document.getElementById( 'ui' )
   )
 }
 
@@ -128,12 +124,12 @@ const initUi = () => {
 
 const getProj = () => {
   let arrProjects = []
-  for ( let key in MODELS) {
+  for ( let key in MODELS ) {
     let isInArray = false   
     arrProjects.forEach( ( item, index, arr ) => {
-      arr[index] == MODELS[key].project ? isInArray = true : isInArray = false 
+      arr[ index ] == MODELS[ key ].project ? isInArray = true : isInArray = false 
     }  )
-    if ( isInArray == false ) arrProjects.push( MODELS[key].project ) 
+    if ( isInArray == false ) arrProjects.push( MODELS[ key ].project ) 
   }
   return arrProjects
 } 
@@ -141,8 +137,8 @@ const getProj = () => {
 
 const getScenes = n => {
   let arrScenes = []
-  for ( let key in MODELS) {   
-    if ( n == MODELS[key].project ) arrScenes.push( MODELS[key].name ) 
+  for ( let key in MODELS ) {   
+    if ( n == MODELS[key].project ) arrScenes.push( MODELS[ key ].name ) 
   }  
   return arrScenes
 }
@@ -150,7 +146,7 @@ const getScenes = n => {
 
 const getImgPathPreviewScene = v => {
   let path = ''
-  for ( let key in MODELS) { 
+  for ( let key in MODELS ) { 
     if ( MODELS[key].name == v ) path = MODELS[key].preview
   } 
   return path 
@@ -160,9 +156,9 @@ const getImgPathPreviewScene = v => {
 const getModels = v => {
   let layers = []
   console.log( v )
-  for ( let key in MODELS) { 
-    if ( MODELS[key].name == v ) {
-      for ( let l in MODELS[key].layers ) {
+  for ( let key in MODELS ) { 
+    if ( MODELS[ key ].name == v ) {
+      for ( let l in MODELS[ key ].layers ) {
         layers.push( l ) 
       }
     }
@@ -174,3 +170,4 @@ const getModels = v => {
 /*******************************************************************/
 
 export { initUi }
+
