@@ -11,11 +11,11 @@ const MODELS = {
             },
             'стены': {
                 obj: 'model1/walls.obj',
-                obj: 'model1/walls.mtl',            
+                mtl: 'model1/walls.mtl',            
             },
             'пол': {
                 obj: 'model1/glass.obj',
-                obj: 'model1/glass.mtl',                  
+                mtl: 'model1/glass.mtl',                  
             }
         }
     },
@@ -25,16 +25,16 @@ const MODELS = {
         preview: 'model2/preview.png',          
         layers: {
             'крыша': {
-                obj: 'assets/model1/roof.obj',
-                mtl: 'assets/model1/roof.mtl'
+                obj: 'model2/roof.obj',
+                mtl: 'model2/roof.mtl'
             },
             'стены': {
-                obj: 'assets/model1/walls.obj',
-                obj: 'assets/model1/walls.mtl',            
+                obj: 'model2/walls.obj',
+                mtl: 'model2/walls.mtl',            
             },
             'пол': {
-                obj: 'assets/model1/glass.obj',
-                obj: 'assets/model1/glass.mtl',                  
+                obj: 'model2/glass.obj',
+                mtl: 'model2/glass.mtl',                  
             }
         }
     },
@@ -44,16 +44,16 @@ const MODELS = {
         preview: 'model3/preview.png',          
         layers: {
             'крыша': {
-                obj: 'assets/model1/roof.obj',
-                mtl: 'assets/model1/roof.mtl'
+                obj: 'model3/roof.obj',
+                mtl: 'model3/roof.mtl'
             },
             'стены': {
-                obj: 'assets/model1/walls.obj',
-                obj: 'assets/model1/walls.mtl',            
+                obj: 'model3/walls.obj',
+                mtl: 'model3/walls.mtl',            
             },
             'пол': {
-                obj: 'assets/model1/glass.obj',
-                obj: 'assets/model1/glass.mtl',                  
+                obj: 'model3/glass.obj',
+                mtl: 'model3/glass.mtl',                  
             }
         }
     },   
@@ -63,16 +63,16 @@ const MODELS = {
         preview: 'model4/preview.png',          
         layers: {
             'крыша': {
-                obj: 'assets/model1/roof.obj',
-                mtl: 'assets/model1/roof.mtl'
+                obj: 'model4/roof.obj',
+                mtl: 'model4/roof.mtl'
             },
             'стены': {
-                obj: 'assets/model1/walls.obj',
-                obj: 'assets/model1/walls.mtl',            
+                obj: 'model4/walls.obj',
+                mtl: 'model4/walls.mtl',            
             },
             'пол': {
-                obj: 'assets/model1/glass.obj',
-                obj: 'assets/model1/glass.mtl',                  
+                obj: 'model4/glass.obj',
+                mtl: 'model4/glass.mtl',                  
             }
         }
     },  
@@ -82,16 +82,16 @@ const MODELS = {
         preview: 'model5/preview.png',          
         layers: {
             'крыша': {
-                obj: 'assets/model1/roof.obj',
-                mtl: 'assets/model1/roof.mtl'
+                obj: 'model5/roof.obj',
+                mtl: 'model5/roof.mtl'
             },
             'стены': {
-                obj: 'assets/model1/walls.obj',
-                obj: 'assets/model1/walls.mtl',            
+                obj: 'model5/walls.obj',
+                mtl: 'model5/walls.mtl',            
             },
             'пол': {
-                obj: 'assets/model1/glass.obj',
-                obj: 'assets/model1/glass.mtl',                  
+                obj: 'model5/floor.obj',
+                mtl: 'model5/floor.mtl',                  
             }
         }
     }             

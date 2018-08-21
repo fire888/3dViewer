@@ -12,5 +12,5 @@ newmtl Material__25
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka D:\VASYA\(1)js\180816Viewer\max\model1\Dekorkirpich21.jpg
-	map_Kd D:\VASYA\(1)js\180816Viewer\max\model1\Dekorkirpich21.jpg
+	map_Ka assets\model2\Dekorkirpich21.jpg
+	map_Kd assets\model2\Dekorkirpich21.jpg

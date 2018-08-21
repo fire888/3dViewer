@@ -23,15 +23,16 @@ export default {
  
    // this is the entry point for your script. All the other code that 
    // gets included will come from import statements.
-   entry:  'www_src/index.js',
+   input:  'www_src/index.js',
  
    // this is the output file.
-   dest:   'www_dist/js/main.js',
+   output:{ file:   'www_dist/js/main.js',
  
    // this is the output format. iife is best for web apps meant to run in a
    // browser. iife means that the script is packaged as a self contained self 
    // executing function.
-   format: 'iife',
+            format: 'iife'
+   },
  
    // this section configures each of the plugins imported above
    plugins:
@@ -76,8 +77,8 @@ export default {
       // 'development' or 'production' depending on which kind of build you
       // are making.
       replace({
-         'process.env.NODE_ENV': JSON.stringify( 'production' )
-		 //'process.env.NODE_ENV': JSON.stringify( 'development' )
+         //'process.env.NODE_ENV': JSON.stringify( 'production' )
+		 'process.env.NODE_ENV': JSON.stringify( 'development' )
       }),
  
       // configuration for the uglify minifier.
@@ -87,9 +88,11 @@ export default {
             warnings: false
          },
          output: {
-            comments: false
+            //comments: false
+			comments: true
          },
-         sourceMap: false
+         //sourceMap: false
+         sourceMap: true		 
       })
    ]
 }
