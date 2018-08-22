@@ -24,6 +24,7 @@ body {
   border-color: #adc9f0;
   border-radius: 5px;
   padding: 10px;
+  min-width: 250px;
 }
 
 .logo {
@@ -39,13 +40,28 @@ body {
   margin: 15px 10px 5px 5px;  
 }
 
+.cornerIcon {
+  font-size: 10px;
+  display: inline-block;
+  cursor: pointer;
+  float: right;
+}
+
+.cornerIcon:hover {
+  color: #ffff00;
+}
+
 .scene {
   font-size: 12px;
   margin: 5px 0px 10px 20px;
 }
 
-.scene img, .scene p{
+.scene p{
   cursor: pointer;  
+}
+
+.scene p:hover {
+  color: #ffff00;  
 }
 
 .previewScene {
@@ -55,8 +71,24 @@ body {
   border-width: 1px;
   border-color: #adc9f0;
   border-radius: 5px;
+  cursor: pointer;  
+}
+
+.previewScene:hover {
+  border-color: #ffff00;
 }
 
 .model {
   margin: 3px 0px 0px 25px
-} 
+}
+
+.hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
+  display: inline-block;
+  color: #ffff00; 
+  margin: 0px 0px 0px 10px;
+  cursor: pointer;
+}
+
+.hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {
+  color: #ffffff; 
+}

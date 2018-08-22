@@ -10,22 +10,37 @@ export { ui }
 
 /*******************************************************************/
 
-
-let clickSceneFunction
+let clickSceneAction, 
+    clickHideModelAction, 
+    clickShowModelAction, 
+    clickTranspModelAction,
+    clickRedModelAction,
+    clickNormalModelAction
 
 /*******************************************************************/
 
 const ui = {
   init: () => initUi(),
-  setClickGetNameScene: ( f ) => {
-    clickSceneFunction = f
-  } 
+  setClickGetNameScene: ( f ) => clickSceneAction = f,
+  setClickGetNameHideModel: ( f ) => clickHideModelAction = f,
+  setClickGetNameShowModel: ( f ) => clickShowModelAction = f,
+  setClickGetNameTranspModel: ( f ) => clickTranspModelAction = f,
+  setClickGetNameRedModel: ( f ) => clickRedModelAction = f,
+  setClickGetNameNormalModel: ( f ) => clickNormalModelAction = f   
 }
 
 
-const clickScene = v => {
-   clickSceneFunction( v )
-}  
+const clickScene = v => clickSceneAction( v )
+
+const clickHideModel = ( layer, scene ) => clickHideModelAction( layer, scene )
+
+const clickShowModel = ( layer, scene ) => { clickShowModelAction( layer, scene ) }
+
+const clickTranspModel = ( layer, scene ) => { clickTranspModelAction( layer, scene ) }
+
+const clickRedModel = ( layer, scene ) => clickRedModelAction( layer, scene )
+
+const clickNormalModel = ( layer, scene ) => clickNormalModelAction( layer, scene )
 
 
 /*******************************************************************/
@@ -53,7 +68,15 @@ class Logo extends React.Component {
 class Tree extends React.Component {
   constructor() {
     super()
+    this.state = {
+      isAllLayersShow: false 
+    }
   }
+
+  clickFunction() {
+    this.setState( { isAllLayersShow: false } )
+  } 
+
   render() {
     this.arrProj = getProj()    
     const projects = this.arrProj.map( ( item, index ) => {
@@ -63,7 +86,7 @@ class Tree extends React.Component {
       />
     } )
     return (
-      <div className = 'tree'> 
+      <div className = 'tree' onClick = { this.clickFunction.bind(this) }> 
         { projects }
       </div>
     )
@@ -74,18 +97,36 @@ class Tree extends React.Component {
 class Project extends React.Component {  
   constructor() {
     super()
+    this.state = { 
+      isShowScenes: false 
+    }
   }
+
+  roll() {
+    let isShow 
+    this.state.isShowScenes ?  isShow = false : isShow = true  
+    this.setState( { isShowScenes: isShow } )
+  }
+
   render() {
+
+    var rolltext = <span>развернуть</span>
+    if ( this.state.isShowScenes ) {
+      rolltext = <span>свернуть</span> 
+    }
+
     this.arrScenes = getScenes( this.props.name )
     const scenes = this.arrScenes.map( ( item, index ) => {
       return <Scene
         key = { index }
         name = { item }
+        isShow = { this.state.isShowScenes } 
       />
     } ) 
     return (
       <div className = 'project'>
-        { this.props.name }
+        { this.props.name } 
+        <div className = 'cornerIcon' onClick = { this.roll.bind(this) } > { rolltext } </div>        
         { scenes }
         <hr/>
       </div>
@@ -97,27 +138,38 @@ class Project extends React.Component {
 class Scene extends React.Component {
   constructor() {
     super()
+    this.state = { 
+      isShowLayers: false
+    }
   }
 
-  clickFunction() { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  clickFunction() { 
     clickScene( this.props.name )
-    //alert( this.props.name )
+    this.setState( { isShowLayers: true } )
   }
 
   render() {
-    const imgPath = 'assets/' + getImgPathPreviewScene( this.props.name ) 
-    const arrModels = getModels( this.props.name )
-    const models = arrModels.map( ( item, index ) => {
-      return <Model
-       key = { index }
-       name = { item } 
-      />
-    } ) 
+  
+    if ( this.props.isShow ) {     
+      const imgPath = 'assets/' + getImgPathPreviewScene( this.props.name ) 
+      var img = <img className = 'previewScene' src = { imgPath } onClick = { this.clickFunction.bind(this) } />   
+      var nameP = <p onClick = { this.clickFunction.bind(this) }> { this.props.name } </p> 
+
+      const arrModels = getModels( this.props.name )
+      var models = arrModels.map( ( item, index ) => {
+        return <Model
+          key = { index }
+          name = { item } 
+          scene = { this.props.name }
+          isShow = { this.state.isShowLayers }
+        />
+      } ) 
+    } 
     return (
       <div className = 'scene'>
-        <img className = 'previewScene' src = { imgPath } onClick = { this.clickFunction.bind(this) } />   
-        <p onClick = { this.clickFunction.bind(this) }> { this.props.name } </p>
-        { models }
+          { img }  
+          { nameP }
+          { models }        
       </div>
     )
   }    
@@ -129,13 +181,121 @@ class Model extends React.Component {
     super()
   }  
   render() {
+      if ( this.props.isShow ) {
+         var nameModel = this.props.name
+         var hideBtn =  <HideModel name = { this.props.name } scene = { this.props.scene } />
+         var showBtn =  <ShowModel name = { this.props.name } scene = { this.props.scene } />
+         var trBtn = <TranspModel name = { this.props.name } scene = { this.props.scene } />
+         var rBtn = <RedModel name = { this.props.name } scene = { this.props.scene } />   
+      }    
     return (
-      <div className = 'model'>
-        { this.props.name }        
+        <div className = 'model'>
+          { nameModel }
+          { hideBtn }
+          { showBtn }
+          { trBtn}
+          { rBtn }        
+        </div> 
+    )
+  }   
+}
+
+
+class HideModel extends React.Component {
+  constructor() {
+    super()
+  }
+  
+  clickFunction() {
+    clickHideModel( this.props.name, this.props.scene )   
+  }
+  
+  render() {
+    return (
+      <div className = 'hideModelButton' onClick = { this.clickFunction.bind(this) }>
+        hide
       </div>
     )
   }   
 }
+
+
+class ShowModel extends React.Component {
+  constructor() {
+    super()
+  } 
+
+  clickFunction() {
+    clickShowModel( this.props.name, this.props.scene )   
+  }
+
+  render() {
+    return (
+      <div className = 'showModelButton' onClick = { this.clickFunction.bind( this ) }>
+        show
+      </div>
+    )
+  }   
+}
+
+
+class TranspModel extends React.Component {
+  constructor() {
+    super()
+  }
+
+  clickFunction() {
+    clickTranspModel( this.props.name, this.props.scene )   
+  }
+
+  render() {
+    return (
+      <div className = 'transpModelButton' onClick = { this.clickFunction.bind( this ) }>
+        transp
+      </div>
+    )
+  }   
+}
+
+
+class RedModel extends React.Component {
+  constructor() {
+    super()
+  } 
+
+  clickFunction() {
+    clickRedModel( this.props.name, this.props.scene )   
+  }
+
+  render() {
+    return (
+      <div className = 'redModelButton' onClick = { this.clickFunction.bind( this ) }>
+        red
+      </div>
+    )
+  }   
+}
+
+
+class NormalModel extends React.Component {
+  constructor() {
+    super()
+  } 
+
+  clickFunction() {
+    clickNormalModel( this.props.name, this.props.scene )   
+  }
+
+  render() {
+    return (
+      <div className = 'normalModelButton' onClick = { this.clickFunction.bind( this ) }>
+        normal
+      </div>
+    )
+  }   
+}
+
+
 
 
 /*******************************************************************/
@@ -183,7 +343,6 @@ const getImgPathPreviewScene = v => {
 
 const getModels = v => {
   let layers = []
-  console.log( v )
   for ( let key in MODELS ) { 
     if ( MODELS[ key ].name == v ) {
       for ( let l in MODELS[ key ].layers ) {

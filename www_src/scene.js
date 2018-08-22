@@ -3,18 +3,20 @@
 export { sc } 
 
 const sc = {
-  createScene: () => createWebGl(),
-  loadScene: ( v ) => loadNewScene( v )
+  init: () => createWebGl(),
+  loadScene: ( v ) => loadNewScene( v ),
+  hideModel: ( v ) => hideModel( v ),
+  showModel: ( v ) => showModel( v ),
+  transpModel: ( v ) => transpModel( v ), 
+  redModel: ( v ) => redModel( v ),
+  normalModel: ( v ) => normalModel( v ),    
 }
 
 
 /*******************************************************************/
 
 let controls, scene, camera, renderer,
-box,
-objLoader = new THREE.OBJLoader(),
-mtlLoader = new THREE.MTLLoader(),
-model, mtl, arrMeshes = [], arrLinks = []
+arrMeshes = [], arrLinks = []
 
 
 /*******************************************************************/
@@ -113,3 +115,48 @@ const loadModel = v => {
   } )  
 }
 
+
+/********************************************************************/
+
+const hideModel = v => {
+  let l = getLinkModelByName( v ) 
+  l.geom.position.y = 10000
+}
+
+
+const showModel = v => {
+  let l = getLinkModelByName( v ) 
+  l.geom.position.y = 0
+}
+
+
+const transpModel = v => {
+  let l = getLinkModelByName( v )  
+  let m = new THREE.MeshPhongMaterial( { color: 0x999999, transparent: true, opacity: 0.3 } ) 
+  for ( let i = 0; i < l.geom.children.length; i ++ ) {
+    l.geom.children[ i ].material = m
+  }   
+}  
+
+
+const redModel = v => {
+  let l = getLinkModelByName( v )  
+  let m = new THREE.MeshPhongMaterial( { color: 0xff0000, transparent: true, opacity: 1.0 } ) 
+  for ( let i = 0; i < l.geom.children.length; i ++ ) {
+    l.geom.children[ i ].material = m
+  }   
+} 
+
+
+const normalModel = v => {
+  console.log('!')
+  let l = getLinkModelByName( v )  
+  l.geom.setMaterials( l.mtl )
+} 
+
+
+const getLinkModelByName = v => {
+  for ( let i = 0; i < arrMeshes.length; i ++  ) {
+    if ( arrMeshes[ i ].name == v ) return arrMeshes[ i ] 
+  }
+} 

@@ -5,15 +5,15 @@ const MODELS = {
         project: 'Замки из кирпича',
         preview: 'model1/preview.png',        
         layers: {
-            'крыша': {
+            'башни': {
                 obj: 'model1/roof.obj',
                 mtl: 'model1/roof.mtl'
             },
-            'стены': {
+            'стена кубическая': {
                 obj: 'model1/walls.obj',
                 mtl: 'model1/walls.mtl',            
             },
-            'пол': {
+            'земля': {
                 obj: 'model1/glass.obj',
                 mtl: 'model1/glass.mtl',                  
             }
@@ -28,11 +28,11 @@ const MODELS = {
                 obj: 'model2/roof.obj',
                 mtl: 'model2/roof.mtl'
             },
-            'стены': {
+            'цилиндры': {
                 obj: 'model2/walls.obj',
                 mtl: 'model2/walls.mtl',            
             },
-            'пол': {
+            'газон': {
                 obj: 'model2/glass.obj',
                 mtl: 'model2/glass.mtl',                  
             }
@@ -43,15 +43,15 @@ const MODELS = {
         project: 'Замки из кирпича',
         preview: 'model3/preview.png',          
         layers: {
-            'крыша': {
+            'кровля черепичная': {
                 obj: 'model3/roof.obj',
                 mtl: 'model3/roof.mtl'
             },
-            'стены': {
+            'стена круглая': {
                 obj: 'model3/walls.obj',
                 mtl: 'model3/walls.mtl',            
             },
-            'пол': {
+            'отметка 0': {
                 obj: 'model3/glass.obj',
                 mtl: 'model3/glass.mtl',                  
             }
@@ -62,17 +62,13 @@ const MODELS = {
         project: 'Крепости из дерева',
         preview: 'model4/preview.png',          
         layers: {
-            'крыша': {
-                obj: 'model4/roof.obj',
-                mtl: 'model4/roof.mtl'
-            },
             'стены': {
                 obj: 'model4/walls.obj',
                 mtl: 'model4/walls.mtl',            
             },
             'пол': {
-                obj: 'model4/glass.obj',
-                mtl: 'model4/glass.mtl',                  
+                obj: 'model4/floor.obj',
+                mtl: 'model4/floor.mtl',                  
             }
         }
     },  
@@ -81,10 +77,6 @@ const MODELS = {
         project: 'Крепости из дерева',
         preview: 'model5/preview.png',          
         layers: {
-            'крыша': {
-                obj: 'model5/roof.obj',
-                mtl: 'model5/roof.mtl'
-            },
             'стены': {
                 obj: 'model5/walls.obj',
                 mtl: 'model5/walls.mtl',            

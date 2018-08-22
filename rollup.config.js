@@ -84,7 +84,8 @@ export default {
       // configuration for the uglify minifier.
       uglify({
          compress: {
-            screw_ie8: true,
+            //screw_ie8: true,
+            screw_ie8: false,
             warnings: false
          },
          output: {
