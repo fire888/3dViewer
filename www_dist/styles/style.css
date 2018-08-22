@@ -41,7 +41,11 @@ body {
 
 .scene {
   font-size: 12px;
-  margin: 5px 0px 10px 20px;    
+  margin: 5px 0px 10px 20px;
+}
+
+.scene img, .scene p{
+  cursor: pointer;  
 }
 
 .previewScene {

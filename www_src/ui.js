@@ -5,6 +5,28 @@ import * as Redux from 'redux'
 import * as ReactRedux from 'react-redux'
 import { Provider } from 'react-redux'
 
+export { ui }
+
+
+/*******************************************************************/
+
+
+let clickSceneFunction
+
+/*******************************************************************/
+
+const ui = {
+  init: () => initUi(),
+  setClickGetNameScene: ( f ) => {
+    clickSceneFunction = f
+  } 
+}
+
+
+const clickScene = v => {
+   clickSceneFunction( v )
+}  
+
 
 /*******************************************************************/
 
@@ -76,6 +98,12 @@ class Scene extends React.Component {
   constructor() {
     super()
   }
+
+  clickFunction() { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    clickScene( this.props.name )
+    //alert( this.props.name )
+  }
+
   render() {
     const imgPath = 'assets/' + getImgPathPreviewScene( this.props.name ) 
     const arrModels = getModels( this.props.name )
@@ -87,8 +115,8 @@ class Scene extends React.Component {
     } ) 
     return (
       <div className = 'scene'>
-        <img className = 'previewScene' src = { imgPath } />   
-        <p> { this.props.name } </p>
+        <img className = 'previewScene' src = { imgPath } onClick = { this.clickFunction.bind(this) } />   
+        <p onClick = { this.clickFunction.bind(this) }> { this.props.name } </p>
         { models }
       </div>
     )
@@ -166,8 +194,4 @@ const getModels = v => {
   return layers
 }
 
-
-/*******************************************************************/
-
-export { initUi }
 

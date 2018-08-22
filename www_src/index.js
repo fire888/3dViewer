@@ -1,18 +1,23 @@
-import  { initUi } from "./ui"
+
+import { ui } from "./ui"
 import { sc } from "./scene" 
 
+
+/*******************************************************************/
+
 window.onload = () => {
-  initUi()
+  ui.init()
   sc.createScene()
-  //sc.loadFirstModel()
   sc.loadScene( MODELS['model1'] )
-  changeModel( 1 )
+  //changeModel( 1 )
+  ui.setClickGetNameScene( ( name ) => {
+    sc.loadScene( MODELS[ name ] )
+  } )   
 }  
 
 const changeModel = n => {
-  if ( n > 5 ) return 
-  console.log( n ) 
-  
+  if ( n > 5 ) n = 1
+
   setTimeout( () => { 
       sc.loadScene( MODELS['model' + n ])
       n ++
@@ -21,3 +26,4 @@ const changeModel = n => {
     5000 
   )
 } 
+
