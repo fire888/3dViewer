@@ -10,6 +10,8 @@ export { ui }
 
 /*******************************************************************/
 
+let store
+
 let clickSceneAction, 
     clickHideModelAction, 
     clickShowModelAction, 
@@ -301,12 +303,35 @@ class NormalModel extends React.Component {
 /*******************************************************************/
 
 const initUi = () => {
+  initRedux()
+
   ReactDOM.render(
     <App />,
     document.getElementById( 'ui' )
   )
 }
 
+
+const initRedux = () => {
+  var userReducer = function(state, action) {
+    if (state === undefined) {
+      state = [];
+    }
+    if (action.type === 'ADD_USER') {
+      state.push(action.user);
+    }
+    return state;
+  }
+
+  store = Redux.createStore(userReducer);
+
+  store.dispatch({
+    type: 'ADD_USER',
+    user: {name: 'Dan'}
+  });
+
+  console.log( store.getState() )
+}
 
 /*******************************************************************/
 

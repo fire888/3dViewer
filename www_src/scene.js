@@ -22,26 +22,26 @@ arrMeshes = [], arrLinks = []
 /*******************************************************************/
 
 const createWebGl = () => {
-    scene = new THREE.Scene()
+  scene = new THREE.Scene()
 
-    camera = new THREE.PerspectiveCamera( 10,	window.innerWidth / window.innerHeight, 3.5, 15000 )
-    camera.position.set( -150, 200, 300 )
-    camera.lookAt( scene.position )
-    controls = new THREE.OrbitControls( camera )    
-  
-    let pointL = new THREE.PointLight( 0xffffff, 2.0 )
-    pointL.position.set( -400, 300, 1600 )
-    scene.add( pointL )
-    let lightAmb = new THREE.AmbientLight( 0xadd6eb, 0.3 )
-    scene.add( lightAmb )
-  
-    renderer = new THREE.WebGLRenderer( { alpha: true } )
-    renderer.setPixelRatio( window.devicePixelRatio )
-    renderer.setSize( window.innerWidth, window.innerHeight )
-    document.body.appendChild( renderer.domElement ) 	
-      
-    drawFrame()
-  }
+  camera = new THREE.PerspectiveCamera( 10,	window.innerWidth / window.innerHeight, 3.5, 15000 )
+  camera.position.set( -150, 200, 300 )
+  camera.lookAt( scene.position )
+  controls = new THREE.OrbitControls( camera )    
+
+  let pointL = new THREE.PointLight( 0xffffff, 2.0 )
+  pointL.position.set( -400, 300, 1600 )
+  scene.add( pointL )
+  let lightAmb = new THREE.AmbientLight( 0xadd6eb, 0.3 )
+  scene.add( lightAmb )
+
+  renderer = new THREE.WebGLRenderer( { alpha: true } )
+  renderer.setPixelRatio( window.devicePixelRatio )
+  renderer.setSize( window.innerWidth, window.innerHeight )
+  document.body.appendChild( renderer.domElement ) 	
+    
+  drawFrame()
+}
   
   
 const drawFrame = () => {  
