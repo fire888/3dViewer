@@ -11,7 +11,7 @@
 body {
   font-family: 'roboto';
   background-color: #305656;
-  color: #b8c0c0;
+  color: #adc9f0;
 }
 
 #ui {
@@ -22,7 +22,6 @@ body {
   border-style: solid;
   border-width: 1px;
   border-color: #adc9f0;
-  border-radius: 5px;
   padding: 10px;
   min-width: 250px;
 }
@@ -47,13 +46,37 @@ body {
   float: right;
 }
 
-.cornerIcon:hover {
-  color: #ffff00;
+@keyframes animatonOpen {
+  from { max-height: 0px; }
+  50% { max-height: 0px;}
+  75% { max-height: 50px;}
+  to { max-height: 1000px;}
+  }
+
+.animOpen {
+  max-height: 1000px;
+  overflow: hidden;
+  animation: animatonOpen 0.4s ease-in 1;
 }
+
+@keyframes animatonClose {
+  from { max-height: 1000px; }
+  50% { max-height: 1000px; }
+  75% { max-height: 50px; }  
+  to { max-height: 0px;}
+  }
+
+.animClose {
+  max-height: 0px;
+  overflow: hidden;
+  animation: animatonClose 0.4s ease-out 1;
+}
+
 
 .scene {
   font-size: 12px;
   margin: 5px 0px 10px 20px;
+  transition: 1.0s;
 }
 
 .scene p{
@@ -70,7 +93,6 @@ body {
   border-style: solid;
   border-width: 1px;
   border-color: #adc9f0;
-  border-radius: 5px;
   cursor: pointer;  
 }
 
