@@ -12,5 +12,5 @@ newmtl Material__28
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka assets\scene4\photo-111413.jpg!d.jpg
-	map_Kd assets\scene4\photo-111413.jpg!d.jpg
+	map_Ka photo-111413.jpg!d.jpg
+	map_Kd photo-111413.jpg!d.jpg

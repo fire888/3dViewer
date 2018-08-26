@@ -87,6 +87,7 @@ const prepearArrLinks = ( idScene, DATA ) => {
         { 
           mtl: 'assets/' +  DATA[ i ].path + '/' +  DATA[ i ].mtl,
           obj: 'assets/' +  DATA[ i ].path + '/' +  DATA[ i ].obj,
+          textures: 'assets/' + DATA[ i ].path + '/', 
           idModel:  DATA[ i ].idModel,
          } )
       arr.push( item )   
@@ -113,20 +114,21 @@ const startLoadModel = c => {
 
 const loadModel = v => {
   console.log( v )
-  new THREE.MTLLoader().load( v.mtl, ( materials ) => {
-    let modelElems = {}
-    modelElems.mtl = materials
-    modelElems.mtl.preload()
-    new THREE.OBJLoader()
-      .setMaterials( modelElems.mtl )
-      .load( 
-        v.obj, 
-        ( object ) => {
-          modelElems.geom = object 
-          scene.add( modelElems.geom )
-          modelElems.name = v.name
-          arrMeshes.push( modelElems ) 
-        }, 
+  new THREE.MTLLoader().setTexturePath( v.textures )
+    .load( v.mtl, ( materials ) => {
+      let modelElems = {}
+      modelElems.mtl = materials
+      modelElems.mtl.preload()
+      new THREE.OBJLoader()
+        .setMaterials( modelElems.mtl )
+        .load( 
+          v.obj, 
+          ( object ) => {
+            modelElems.geom = object 
+            scene.add( modelElems.geom )
+            modelElems.name = v.name
+            arrMeshes.push( modelElems ) 
+          }, 
         () => {}, 
         () => {} 
       )
