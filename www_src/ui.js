@@ -12,14 +12,25 @@ export { ui }
 
 const ui = {
   init: ( uiTreeDATA ) => initUi( uiTreeDATA ),
-  setClickGetIdScene: ( getIdScene ) => { returnIdScene = getIdScene }
+  setClickGetIdScene: ( getIdScene ) => { returnIdScene = getIdScene },
+  setClickGetIdHideModel: ( getIdModel ) => { clickHideModel = getIdModel },
+  setClickGetIdShowModel: ( getIdModel ) => { clickShowModel = getIdModel },
+
 }
 
 let store,
-returnIdScene
+returnIdScene, clickHideModel, clickShowModel
 
 const setClickOnScene = idScene => {
   returnIdScene( idScene )
+} 
+
+const setClickHideModel = idModel => {
+  clickHideModel( idModel )
+} 
+
+const setClickShowModel = idModel => {
+  clickShowModel( idModel )
 } 
 
 /*******************************************************************/
@@ -240,7 +251,11 @@ class Scene extends React.Component {
     const imgSrc =  'assets/' + this.props.path + '/preview.png'
     const img = <img src = { imgSrc } className = 'previewScene'/>
     const models = store.getState()[ this.props.projectIndex].scenes[ this.props.id ].models.map( ( item, index ) => {
-      return <p  className = 'model'>{ item.name }</p>
+      return <Model 
+        name = { item.name }
+        idModel = { item.idModel }
+        idScene = { this.props.idScene }
+      />
     } )
     let anim 
     this.props.isOpen ? anim = 'animOpen' : anim = 'animClose'     
@@ -262,5 +277,55 @@ Scene.contextTypes = {
 }
 
 
+class Model extends React.Component {
+  render() {
+    return ( 
+      <div className = 'model'>
+        <div className = 'modelName'>{ this.props.name } / { this.props.idModel } </div>
+        <div className = 'modelButtons'>
+          < HideModelBtn idModel = { this.props.idModel } />
+          <span className = 'hideModelButton'>transp</span> 
+          <span className = 'hideModelButton'>red</span>
+        </div>           
+      </div>    
+    )
+  }
+}
+
+Model.contextTypes = {
+  store: PropTypes.object
+}
+
+
+class HideModelBtn extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      isHide: false
+    }
+  }
+  clickFunction () {
+    if ( this.state.isHide ) {
+      this.setState( { isHide: false } )
+      setClickShowModel( this.props.idModel )
+    } else {
+      this.setState( { isHide: true } )
+      setClickHideModel( this.props.idModel )
+    } 
+  }
+  render() {
+    var txt, cl
+    if ( this.state.isHide ) {
+      txt = 'show'
+      cl = 'showModelButton' 
+    } else {
+      txt = 'hide' 
+      cl = 'hideModelButton'
+    }  
+    return(
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+    )
+  } 
+} 
 
 

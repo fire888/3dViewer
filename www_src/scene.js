@@ -138,18 +138,18 @@ const loadModel = v => {
 
 /********************************************************************/
 
-const hideModel = v => {
-  let l = getLinkModelByName( v ) 
+const hideModel = id => {
+  let l = getLinkModelById( id ) 
   l.geom.position.y = 10000
 }
 
 
-const showModel = v => {
-  let l = getLinkModelByName( v ) 
+const showModel = id => {
+  let l = getLinkModelById( id ) 
   l.geom.position.y = 0
 }
 
-
+/*
 const transpModel = v => {
   let l = getLinkModelByName( v )  
   let m = new THREE.MeshPhongMaterial( { color: 0x999999, transparent: true, opacity: 0.3 } ) 
@@ -173,11 +173,14 @@ const normalModel = v => {
   let l = getLinkModelByName( v )  
   l.geom.setMaterials( l.mtl )
 } 
+*/
 
 
-const getLinkModelByName = v => {
+/*******************************************************************/
+
+const getLinkModelById = v => {
   for ( let i = 0; i < arrMeshes.length; i ++  ) {
-    if ( arrMeshes[ i ].name == v ) return arrMeshes[ i ] 
+    if ( arrMeshes[ i ].idModel == v ) return arrMeshes[ i ] 
   }
 } 
 

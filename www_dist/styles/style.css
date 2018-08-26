@@ -90,14 +90,6 @@ hr {
   transition: 1.0s;
 }
 
-.scene p{
-  cursor: pointer;  
-}
-
-.scene p:hover {
-  color: #ffff00;  
-}
-
 .previewScene {
   height: 80px;
   width: auto;
@@ -112,14 +104,31 @@ hr {
 }
 
 .model {
-  margin: 3px 0px 0px 25px
+  margin: 3px 5px 0px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.modelName {
+  flex: 1 0 auto;
+}
+
+.modelButtons {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
-  display: inline-block;
+  margin: 0px 5px;
   color: #ffff00; 
-  margin: 0px 0px 0px 10px;
   cursor: pointer;
+}
+
+.showModelButton {
+  background-color: red;
 }
 
 .hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {

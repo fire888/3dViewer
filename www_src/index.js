@@ -14,9 +14,9 @@ window.onload = () => {
   sc.init( getPathToModelsData( arrScenes ) )
   sc.loadScene( 0 )
   setClickLoadScene()
-  /*setClickHideModel()
+  setClickHideModel()
   setClickShowModel()
-  setClickTranspModel()
+ /* setClickTranspModel()
   setClickRedModel()
   setClickNormalModel()  
   */
@@ -118,24 +118,12 @@ const getPathToModelsData = DATA => {
 
 const setClickLoadScene = () => ui.setClickGetIdScene( ( idScene ) => sc.loadScene( idScene ) )
 
+const setClickHideModel = () => ui.setClickGetIdHideModel( ( idModel ) => sc.hideModel( idModel ) )
+  
+const setClickShowModel = () => ui.setClickGetIdShowModel( ( idModel ) => sc.showModel( idModel ) ) 
+
 
 /*
-const setClickHideModel = () => {
-  ui.setClickGetNameHideModel( ( layerName, sceneName ) => {
-    if (  currentSceneName != sceneName ) return  
-    sc.hideModel( layerName )
-  } ) 
-}
-
-
-const setClickShowModel = () => {
-  ui.setClickGetNameShowModel( ( layerName, sceneName ) => {
-    if (  currentSceneName != sceneName ) return  
-    sc.showModel( layerName )    
-  } ) 
-}
-
-
 const setClickTranspModel = () => {
   ui.setClickGetNameTranspModel( ( layerName, sceneName ) => {
     if (  currentSceneName != sceneName ) return  
