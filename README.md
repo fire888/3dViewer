@@ -1,12 +1,12 @@
 
-# 3dViewer
+# 3dViewer  
+(в процессе)
 
 ![pic](https://github.com/fire888/3dViewer/blob/master/www_dist/styles/screenshot.jpg)  
-[*View inProgress *](http://js.otrisovano.ru/tests/180816Viewer/master)
+[*Посмотреть промежуточную версию*](http://js.otrisovano.ru/tests/180816Viewer/master)
 
-____
 
-Собранное приложение находится в папке *www_dist/*
+Собранное приложение находится в папке *www_dist/*  
 Модели для сцены в папке *www_dist/assets/*
 
 ____
@@ -62,4 +62,5 @@ npm i
 npm run build
 ```
 
+____
 
