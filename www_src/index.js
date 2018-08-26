@@ -1,4 +1,6 @@
 
+
+
 import { ui } from "./ui"
 import { sc } from "./scene" 
 
@@ -7,12 +9,12 @@ import { sc } from "./scene"
 
 window.onload = () => {
   if ( ! checkIsDataSCENES() ) return 
-  ui.init( getUiTreeData( SCENES ) )
-
-  /*sc.init()
-  loadStartModel()
+  let arrScenes = setIdIdendIficatorInScenes( SCENES )
+  ui.init( getUiTreeData( arrScenes ) )
+  sc.init( getPathToModelsData( arrScenes ) )
+  sc.loadScene( 0 )
   setClickLoadScene()
-  setClickHideModel()
+  /*setClickHideModel()
   setClickShowModel()
   setClickTranspModel()
   setClickRedModel()
@@ -25,6 +27,18 @@ const checkIsDataSCENES = () => {
   if ( typeof SCENES != 'undefined' ) return true 
   alert( 'no data scenes' )
   return false 
+}
+
+const setIdIdendIficatorInScenes = arr => {
+  let idModel = 0
+  return arr.map( ( item, index ) => {
+    item.idScene = index 
+    for ( let key in item.models ) {
+      item.models[ key ].idModel = idModel
+      idModel ++
+    }
+    return item
+  } )
 }
 
 
@@ -61,7 +75,8 @@ const setScenesInProjectTree = ( proj, DATA ) => {
       Object.assign( 
         {}, 
         { name: DATA[ index ].name },
-        { path: DATA[ index ].path } 
+        { path: DATA[ index ].path },
+        { idScene: DATA[ index ].idScene }
       ) 
     )
   } )
@@ -77,30 +92,34 @@ const setModelsInSceneTree = ( scene, DATA ) => {
   } )  
 }
 
+const getPathToModelsData = DATA => {
+  let modelId = 0
+  let arr = []
+  DATA.forEach( ( sceneDATA, indexScene ) => {
+    for ( let key in sceneDATA.models ) {
+      arr.push( Object.assign(
+        {},
+        { 
+          idScene: sceneDATA.idScene,
+          path: sceneDATA.path,
+          idModel: sceneDATA.models[ key ].idModel,           
+          obj: sceneDATA.models[ key ].obj,
+          mtl: sceneDATA.models[ key ].mtl          
+        } 
+      ) )
+      modelId ++
+    }
+  } ) 
+  return arr 
+}
+
 
 /*******************************************************************/
 
-let currentSceneName = null
+const setClickLoadScene = () => ui.setClickGetIdScene( ( idScene ) => sc.loadScene( idScene ) )
 
-/*******************************************************************/
 
 /*
-const loadStartModel = () => {
-  currentSceneName = 'Многобашенный замок'
-  let scene = getSceneKey( currentSceneName  )
-  sc.loadScene( scene )  
-}
-
-
-const setClickLoadScene = () => {
-  ui.setClickGetNameScene( ( name ) => {
-    currentSceneName = name
-    let scene = getSceneKey( currentSceneName  )
-    sc.loadScene( scene )
-  } )
-}
-
-
 const setClickHideModel = () => {
   ui.setClickGetNameHideModel( ( layerName, sceneName ) => {
     if (  currentSceneName != sceneName ) return  

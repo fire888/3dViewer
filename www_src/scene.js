@@ -2,8 +2,13 @@
 
 export { sc } 
 
+/*******************************************************************/
+
 const sc = {
-  init: () => createWebGl(),
+  init: ( data ) => {
+    ARR_MODELS = data 
+    createWebGl()
+  },
   loadScene: ( v ) => loadNewScene( v ),
   hideModel: ( v ) => hideModel( v ),
   showModel: ( v ) => showModel( v ),
@@ -15,6 +20,7 @@ const sc = {
 
 /*******************************************************************/
 
+let ARR_MODELS 
 let controls, scene, camera, renderer,
 arrMeshes = [], arrLinks = []
 
@@ -39,7 +45,7 @@ const createWebGl = () => {
   renderer.setPixelRatio( window.devicePixelRatio )
   renderer.setSize( window.innerWidth, window.innerHeight )
   document.body.appendChild( renderer.domElement ) 	
-    
+
   drawFrame()
 }
   
@@ -53,12 +59,12 @@ const drawFrame = () => {
 
 /*******************************************************************/
 
-const loadNewScene = v => {
+const loadNewScene = idScene => {
+  console.log( idScene )
   removeOldScene()
-  prepearArrLinks( v )
+  arrLinks = prepearArrLinks( idScene, ARR_MODELS )
   addNewScene()
 } 
-
 
 const removeOldScene = () => {
   arrMeshes.forEach( ( item, index, arr ) => {
@@ -68,16 +74,27 @@ const removeOldScene = () => {
     item.mtl = null 
   } ) 
   arrMeshes = []
-}
-
-
-const prepearArrLinks = v => {
   arrLinks = []
-  for ( let key in v.layers ) {
-    arrLinks.push( Object.assign( {}, v.layers[ key ], { name: key } ) ) 
-  }  
 }
 
+
+const prepearArrLinks = ( idScene, DATA ) => {
+  let arr = []
+  for ( let i = 0; i < DATA.length; i ++  ) {
+    if ( DATA[ i ].idScene == idScene ) {
+      let item = Object.assign( 
+        {}, 
+        { 
+          mtl: 'assets/' +  DATA[ i ].path + '/' +  DATA[ i ].mtl,
+          obj: 'assets/' +  DATA[ i ].path + '/' +  DATA[ i ].obj,
+          idModel:  DATA[ i ].idModel,
+         } )
+      arr.push( item )   
+    }
+  }   
+  return arr
+}     
+  
 
 const addNewScene = () => {
   let c = 0
@@ -95,14 +112,15 @@ const startLoadModel = c => {
 
 
 const loadModel = v => {
-  new THREE.MTLLoader().load( 'assets/' + v.mtl, ( materials ) => {
+  console.log( v )
+  new THREE.MTLLoader().load( v.mtl, ( materials ) => {
     let modelElems = {}
     modelElems.mtl = materials
     modelElems.mtl.preload()
     new THREE.OBJLoader()
       .setMaterials( modelElems.mtl )
       .load( 
-        'assets/' + v.obj, 
+        v.obj, 
         ( object ) => {
           modelElems.geom = object 
           scene.add( modelElems.geom )
@@ -160,3 +178,14 @@ const getLinkModelByName = v => {
     if ( arrMeshes[ i ].name == v ) return arrMeshes[ i ] 
   }
 } 
+
+
+
+/********************************************************************/
+
+const addTestBox = () => { 
+  scene.add( new THREE.Mesh(
+    new THREE.BoxGeometry( 30, 30, 30 ),
+    new THREE.MeshBasicMaterial( { color: 0xff0000 } ) 
+  ) )
+}

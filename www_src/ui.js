@@ -1,24 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
- 
 import * as Redux from 'redux'
 import * as ReactRedux from 'react-redux'
 import { Provider } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { createStore, combineReducers } from 'redux'
-
 export { ui }
 
-console.log( PropTypes )
 
 /*******************************************************************/
 
 const ui = {
-  init: ( uiTreeDATA ) => initUi( uiTreeDATA )
+  init: ( uiTreeDATA ) => initUi( uiTreeDATA ),
+  setClickGetIdScene: ( getIdScene ) => { returnIdScene = getIdScene }
 }
 
-let store
+let store,
+returnIdScene
+
+const setClickOnScene = idScene => {
+  returnIdScene( idScene )
+} 
 
 /*******************************************************************/
 
@@ -30,11 +32,7 @@ const initUi = ( uiTreeDATA ) => {
   let reducers = createReducers()
   store = Redux.createStore( reducers, uiTreeDATA  )  
   store.subscribe( renderUiTreeReact )
-
   renderUiTreeReact()
-
-  //store.dispatch( openProjectAction( 0 ) )
-  //console.log( store.getState() )  
 }
 
 /*******************************************************************/
@@ -196,12 +194,10 @@ class Project extends React.Component {
     }
   } 
   render() {
-    var rollText, scenes, anim
+    var scenes, anim
     if ( store.getState()[ this.props.id ].isOpen == true ) {
-      rollText = 'свернуть'
       anim = 'animOpen'
     } else {
-      rollText = 'развернуть'      
       anim = 'animClose' 
     } 
     scenes = store.getState()[ this.props.id ].scenes.map( ( item, index ) => {
@@ -213,12 +209,13 @@ class Project extends React.Component {
         isOpen = { item.isOpen }
         isCurrent = { item.isCurrent }
         path = { item.path }
+        idScene = { item.idScene }
       />
     } )     
     return (
       <div className = 'project'>
-        { this.props.name }
-        <span className = 'cornerIcon' onClick = { this.clickClose.bind( this ) }>{ rollText }</span>
+        <hr/>      
+        <span className = 'projName' onClick = { this.clickClose.bind( this ) }>{ this.props.name }</span>
         <div className = { anim }>
         { scenes }
         </div>
@@ -237,7 +234,7 @@ class Scene extends React.Component {
   clickFunction() {
     if ( this.props.isOpen == true ) return
     store.dispatch( openSceneAndCloseAnoterAction( this.props.id, this.props.projectIndex ) )
-    console.log( 'not current' )
+    setClickOnScene( this.props.idScene )
   }
   render() {
     const imgSrc =  'assets/' + this.props.path + '/preview.png'
@@ -265,112 +262,5 @@ Scene.contextTypes = {
 }
 
 
-
-
-
-
-
-
-
-
-
-/**************************************************************************/
-/**************************************************************************/
-/**************************************************************************/
-/**************************************************************************/
-/**************************************************************************/
-
-
-/*
-class Project extends React.Component {  
-  constructor() {
-    super()
-  }
-
-  rollFunc() {
-    if ( store.getState()[ this.props.id ].isOpen == true ) {
-      store.dispatch( {
-        type: 'CLOSE_PROJECT',
-        id: this.props.id
-      } )      
-    } else {
-      store.dispatch( {
-        type: 'OPEN_PROJECT',
-        id: this.props.id
-      } )       
-    }
-    console.log( store.getState() ) 
-  } 
-
-  render() {
-     var rollText, scene
-     if ( store.getState()[ this.props.id ].isOpen == true ) {
-       rollText = 'свернуть' 
-       scene = <Scene />
-     } else {
-      rollText = 'развернуть' 
-      scene = null      
-     } 
-    return (
-      <div className = 'project'>
-        Project Name
-        <span className = 'cornerIcon' onClick = { this.rollFunc.bind( this ) }>{ rollText }</span>
-       { scene }
-      </div>
-    )
-  }    
-}
-*/
-
-/*
-class Scene extends React.Component {
-  constructor() {
-    super()
-  }
-
-  clickFunction() { 
-  }
-
-  render() {
-    return (
-      <div className = 'scene'>
-        scene Name
-        <Model />
-      </div>
-    )
-  }    
-}
-
-
-class Model extends React.Component {
-  constructor() {
-    super()
-  }  
-  render() {
-    return (
-        <div className = 'model'>
-          NameModel
-          <ShowHideBtn />     
-        </div> 
-    )
-  }   
-}
-*/
-
-class ShowHideBtn extends React.Component {
-  constructor() {
-    super()
-  }
-  
-  clickFunction() {}
-  
-  render() {
-    return (
-      <div className = 'hideModelButton' onClick = { this.clickFunction.bind(this) }>
-        hide btn
-      </div>
-    )
-  }   
-}
 
 

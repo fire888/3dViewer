@@ -22,7 +22,6 @@ body {
   border-style: solid;
   border-width: 1px;
   border-color: #adc9f0;
-  padding: 10px;
   min-width: 250px;
 }
 
@@ -30,19 +29,31 @@ body {
   margin: 5px 5px 15px 5px;  
 }
 
-.tree {
-  margin: 5px; 
-}
-
 .project {
   font-size: 15px;
-  margin: 15px 10px 5px 5px;  
+  margin: 5px 0px 5px 0px;  
+}
+
+.projName {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.projName:hover {
+  color: #ffff00; 
+}
+
+hr {
+  border: none;
+  color: #81858b;
+  background-color: #81858b;
+  height: 1px;
 }
 
 .cornerIcon {
   font-size: 10px;
   display: inline-block;
-  cursor: pointer;
+
   float: right;
 }
 
@@ -61,8 +72,8 @@ body {
 
 @keyframes animatonClose {
   from { max-height: 1000px; }
-  50% { max-height: 1000px; }
-  75% { max-height: 50px; }  
+  25% { max-height: 50px; }
+  75% { max-height: 0px; }  
   to { max-height: 0px;}
   }
 

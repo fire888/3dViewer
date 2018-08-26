@@ -12,5 +12,5 @@ newmtl Material__27
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka assets\model3\grass_15.jpg
-	map_Kd assets\model3\grass_15.jpg
+	map_Ka assets\scene3\grass_15.jpg
+	map_Kd assets\scene3\grass_15.jpg
