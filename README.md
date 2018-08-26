@@ -49,15 +49,12 @@ ____
 
 ### РАЗРАБАМ 
 
-В консоли 
+В консоли, в папке со скачанным проектом: 
 
 ```
-git init
-git remote add origin https://github.com/fire888/3dViewer
-git pull origin master
 npm i
 ```
-Сборка в файл *www_dist/js/main.js*
+Сборка в файл *www_dist/js/main.js*:
 ```
 npm run build
 ```
