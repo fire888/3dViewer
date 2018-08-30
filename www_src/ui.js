@@ -12,26 +12,30 @@ export { ui }
 
 const ui = {
   init: ( uiTreeDATA ) => initUi( uiTreeDATA ),
-  setClickGetIdScene: ( getIdScene ) => { returnIdScene = getIdScene },
-  setClickGetIdHideModel: ( getIdModel ) => { clickHideModel = getIdModel },
-  setClickGetIdShowModel: ( getIdModel ) => { clickShowModel = getIdModel },
-
+  setClickGetIdScene: ( f ) => { returnIdScene = f },
+  setClickGetIdHideModel: ( f ) => { clickHideModel = f },
+  setClickGetIdShowModel: ( f ) => { clickShowModel = f },
+  setClickGetIdTranspModel: ( f ) => { clickTranspModel = f },
+  setClickGetIdRedModel: ( f ) => { clickRedModel = f }
 }
 
 let store,
-returnIdScene, clickHideModel, clickShowModel
+returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel
 
-const setClickOnScene = idScene => {
-  returnIdScene( idScene )
-} 
+const setClickOnScene = idScene => returnIdScene( idScene )
 
-const setClickHideModel = idModel => {
-  clickHideModel( idModel )
-} 
+const setClickHideModel = idModel => clickHideModel( idModel )
 
-const setClickShowModel = idModel => {
-  clickShowModel( idModel )
-} 
+const setClickShowModel = idModel => clickShowModel( idModel )
+
+const setClickTranspModel = idModel => clickTranspModel( idModel ) 
+
+const setClickRedModel = idModel => clickRedModel( idModel )
+
+const setClickNormalModel = idModel => { /*** */ }
+
+
+
 
 /*******************************************************************/
 
@@ -39,7 +43,6 @@ const setClickShowModel = idModel => {
 const initUi = ( uiTreeDATA ) => {
 
   addUiPropsInTree( uiTreeDATA )
-
   let reducers = createReducers()
   store = Redux.createStore( reducers, uiTreeDATA  )  
   store.subscribe( renderUiTreeReact )
@@ -52,15 +55,14 @@ const addUiPropsInTree = ( uiTreeDATA ) => {
   uiTreeDATA.forEach( ( project, idProj ) => {
     project.isOpen = false
     project.isCurrent = false
-    project.id = idProj
+    project.uiIndexProject = idProj
     project.scenes.forEach( ( scene, idSc )  => {
       scene.isOpen = false
       scene.isCurrent = false
-      scene.id = idSc
+      scene.uiIndexScene = idSc
       scene.models.forEach( ( model, idModel ) => {
         model.isCurrent = false
         model.view = 'normal' // || 'hidden' || 'transp' || 'red'
-        model.id = idModel 
       } )
     } )  
   } )
@@ -72,19 +74,19 @@ const createReducers = () => {
     switch ( action.type ) { 
       case 'CLOSE_PROJECT':
         state.forEach( ( item, index ) => {
-          if ( item.id == action.id ) item.isOpen = false 
+          if ( item.uiIndexProject == action.uiIndexProject ) item.isOpen = false 
         } )
         return state
       case 'OPEN_PROJECT':
         state.forEach( ( item, index ) => {
-          if ( item.id == action.id ) item.isOpen = true
+          if ( item.uiIndexProject == action.uiIndexProject ) item.isOpen = true
         } )
         return state        
       case 'OPEN_SCENE_CLOSE_ANOTHER':
         state.forEach( ( pr, index ) => {
-          if ( pr.id == action.projId ) {
+          if ( pr.uiIndexProject == action.uiIndexProject ) {
             pr.scenes.forEach( ( scene, index ) => {
-              scene.id != action.id ? scene.isOpen = false : scene.isOpen = true 
+              scene.uiIndexScene != action.uiIndexScene ? scene.isOpen = false : scene.isOpen = true 
             } ) 
           } else {
             pr.scenes.forEach( ( scene, index ) => {
@@ -111,25 +113,25 @@ const renderUiTreeReact = () => {
 
 /*******************************************************************/
 
-const openProjectAction = id => {
+const openProjectAction = uiIndexProject => {
   return {
     type: 'OPEN_PROJECT',
-    id
+    uiIndexProject
   }
 }
 
-const closeProjectAction = id => {
+const closeProjectAction = uiIndexProject => {
   return {
     type: 'CLOSE_PROJECT',
-    id
+    uiIndexProject
   }
 }
 
-const openSceneAndCloseAnoterAction = ( id, projId ) => {
+const openSceneAndCloseAnoterAction = ( uiIndexScene, uiIndexProject ) => {
   return {
     type: 'OPEN_SCENE_CLOSE_ANOTHER',
-    id,
-    projId
+    uiIndexScene,
+    uiIndexProject
   }
 }
 
@@ -158,7 +160,7 @@ class App extends React.Component {
       return <Project
         key = { index }
         name = { item.name }
-        id = { item.id }
+        uiIndexProject = { item.uiIndexProject }
         isOpen = { item.isOpen }
         isCurrent = { item.isCurrent }
       />
@@ -198,25 +200,25 @@ Logo.contextTypes = {
 
 class Project extends React.Component {  
   clickClose() {
-    if ( store.getState()[ this.props.id ].isOpen == true ) {   
-      store.dispatch( closeProjectAction( this.props.id ) )
+    if ( store.getState()[ this.props.uiIndexProject ].isOpen == true ) {   
+      store.dispatch( closeProjectAction( this.props.uiIndexProject ) )
     } else {
-      store.dispatch( openProjectAction( this.props.id ) )
+      store.dispatch( openProjectAction( this.props.uiIndexProject ) )
     }
   } 
   render() {
     var scenes, anim
-    if ( store.getState()[ this.props.id ].isOpen == true ) {
+    if ( store.getState()[ this.props.uiIndexProject ].isOpen == true ) {
       anim = 'animOpen'
     } else {
       anim = 'animClose' 
     } 
-    scenes = store.getState()[ this.props.id ].scenes.map( ( item, index ) => {
+    scenes = store.getState()[ this.props.uiIndexProject ].scenes.map( ( item, index ) => {
       return <Scene 
         key = { index }
         name = { item.name }
-        projectIndex = { this.props.id }
-        id = { item.id }
+        uiIndexProject = { this.props.uiIndexProject }
+        uiIndexScene = { item.uiIndexScene }
         isOpen = { item.isOpen }
         isCurrent = { item.isCurrent }
         path = { item.path }
@@ -226,7 +228,7 @@ class Project extends React.Component {
     return (
       <div className = 'project'>
         <hr/>      
-        <span className = 'projName' onClick = { this.clickClose.bind( this ) }>{ this.props.name }</span>
+        <div className = 'projName' onClick = { this.clickClose.bind( this ) }>{ this.props.name }</div>
         <div className = { anim }>
         { scenes }
         </div>
@@ -244,13 +246,13 @@ Project.contextTypes = {
 class Scene extends React.Component {
   clickFunction() {
     if ( this.props.isOpen == true ) return
-    store.dispatch( openSceneAndCloseAnoterAction( this.props.id, this.props.projectIndex ) )
+    store.dispatch( openSceneAndCloseAnoterAction( this.props.uiIndexScene, this.props.uiIndexProject ) )  
     setClickOnScene( this.props.idScene )
   }
   render() {
     const imgSrc =  'assets/' + this.props.path + '/preview.png'
     const img = <img src = { imgSrc } className = 'previewScene'/>
-    const models = store.getState()[ this.props.projectIndex].scenes[ this.props.id ].models.map( ( item, index ) => {
+    const models = store.getState()[ this.props.uiIndexProject ].scenes[ this.props.uiIndexScene ].models.map( ( item, index ) => { 
       return <Model 
         name = { item.name }
         idModel = { item.idModel }
@@ -281,11 +283,11 @@ class Model extends React.Component {
   render() {
     return ( 
       <div className = 'model'>
-        <div className = 'modelName'>{ this.props.name } / { this.props.idModel } </div>
+        <div className = 'modelName'>{ this.props.name } </div>
         <div className = 'modelButtons'>
-          < HideModelBtn idModel = { this.props.idModel } />
-          <span className = 'hideModelButton'>transp</span> 
-          <span className = 'hideModelButton'>red</span>
+          <HideModelBtn idModel = { this.props.idModel } />
+          <TranspModelBtn idModel = { this.props.idModel } /> 
+          <RedModelBtn idModel = { this.props.idModel } /> 
         </div>           
       </div>    
     )
@@ -301,25 +303,90 @@ class HideModelBtn extends React.Component {
   constructor() {
     super()
     this.state = {
-      isHide: false
+      btnOn: false
     }
   }
   clickFunction () {
-    if ( this.state.isHide ) {
-      this.setState( { isHide: false } )
+    console.log( 'props.idModel: ', this.props.idModel )
+    if ( this.state.btnOn ) {
+      this.setState( { btnOn: false } )
       setClickShowModel( this.props.idModel )
     } else {
-      this.setState( { isHide: true } )
+      this.setState( { btnOn: true } )
       setClickHideModel( this.props.idModel )
     } 
   }
   render() {
     var txt, cl
-    if ( this.state.isHide ) {
+    if ( this.state.btnOn ) {
       txt = 'show'
       cl = 'showModelButton' 
     } else {
       txt = 'hide' 
+      cl = 'hideModelButton'
+    }  
+    return(
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+    )
+  } 
+} 
+
+
+class TranspModelBtn extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      btnOn: false
+    }
+  }
+  clickFunction () {
+    if ( this.state.btnOn ) {
+      this.setState( { btnOn: false } )
+      setClickNormalModel( this.props.idModel )
+    } else {
+      this.setState( { btnOn: true } )
+      setClickTranspModel( this.props.idModel )
+    } 
+  }
+  render() {
+    var txt, cl
+    if ( this.state.btnOn ) {
+      txt = 'unTransp'
+      cl = 'showModelButton' 
+    } else {
+      txt = 'transp' 
+      cl = 'hideModelButton'
+    }  
+    return(
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+    )
+  } 
+} 
+
+
+class RedModelBtn extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      btnOn: false
+    }
+  }
+  clickFunction () {
+    if ( this.state.btnOn ) {
+      this.setState( { btnOn: false } )
+      setClickNormalModel( this.props.idModel )
+    } else {
+      this.setState( { btnOn: true } )
+      setClickRedModel( this.props.idModel )
+    } 
+  }
+  render() {
+    var txt, cl
+    if ( this.state.btnOn ) {
+      txt = 'unRed'
+      cl = 'showModelButton' 
+    } else {
+      txt = 'red' 
       cl = 'hideModelButton'
     }  
     return(

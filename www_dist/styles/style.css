@@ -10,19 +10,24 @@
 
 body {
   font-family: 'roboto';
-  background-color: #305656;
-  color: #adc9f0;
+  background: #8a808e; /* Old Browsers */
+  background: -webkit-linear-gradient(top,#8a808e,#b0ba89); /*Safari 5.1-6*/
+  background: -o-linear-gradient(top,#8a808e,#b0ba89); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(top,#8a808e,#b0ba89); /*Fx 3.6-15*/
+  background: linear-gradient(to bottom, #8a808e, #b0ba89); /*Standard*/
+  color: #1c2025;
 }
 
 #ui {
   position: absolute;
   left: 10px;
   top: 10px;
-  background-color: #363f4c;
+  background:rgba(233, 233, 233, 0.87);
   border-style: solid;
-  border-width: 1px;
-  border-color: #adc9f0;
-  min-width: 250px;
+  border-width: 6px;
+  border-color: #070808;
+  min-width: 300px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .logo {
@@ -31,30 +36,25 @@ body {
 
 .project {
   font-size: 15px;
-  margin: 5px 0px 5px 0px;  
 }
 
 .projName {
-  margin-left: 10px;
+  transition: 0.3s;
+  color: #f3f3f3;
+  padding: 15px 0px 15px 10px;
   cursor: pointer;
+  background:rgba(139, 139, 139, 0.87);
 }
 
 .projName:hover {
-  color: #ffff00; 
+  color: #2b2b2b; 
 }
 
 hr {
   border: none;
-  color: #81858b;
-  background-color: #81858b;
-  height: 1px;
-}
-
-.cornerIcon {
-  font-size: 10px;
-  display: inline-block;
-
-  float: right;
+  color: #0f1113;
+  background-color: #0f1113;
+  height: 4px;
 }
 
 @keyframes animatonOpen {
@@ -91,16 +91,19 @@ hr {
 }
 
 .previewScene {
+  transition: 0.3s;
   height: 80px;
   width: auto;
   border-style: solid;
-  border-width: 1px;
-  border-color: #adc9f0;
+  border-width: 2px;
+  border-color: #6d6f74;
+  border-radius: 3px;
   cursor: pointer;  
 }
 
 .previewScene:hover {
-  border-color: #ffff00;
+  border-color: #f2fac3;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .model {
@@ -123,14 +126,15 @@ hr {
 
 .hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
   margin: 0px 5px;
-  color: #ffff00; 
+  color: #63676b; 
   cursor: pointer;
 }
 
 .showModelButton {
-  background-color: red;
+  background-color: rgb(151, 156, 152);
+  color: #ffffff;
 }
 
 .hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {
-  color: #ffffff; 
+  color: #240606; 
 }

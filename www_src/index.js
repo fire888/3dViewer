@@ -12,14 +12,15 @@ window.onload = () => {
   let arrScenes = setIdIdendIficatorInScenes( SCENES )
   ui.init( getUiTreeData( arrScenes ) )
   sc.init( getPathToModelsData( arrScenes ) )
-  sc.loadScene( 0 )
   setClickLoadScene()
   setClickHideModel()
   setClickShowModel()
- /* setClickTranspModel()
+  setClickTranspModel()
   setClickRedModel()
+  /*
   setClickNormalModel()  
   */
+  setTimeout( () => { sc.loadScene( 0 ) }, 400 )
 }
 
 
@@ -87,7 +88,7 @@ const setModelsInSceneTree = ( scene, DATA ) => {
     if ( sceneDATA.name != scene.name ) return
     scene.models = [] 
     for ( let key in sceneDATA.models ) {
-      scene.models.push( Object.assign({}, { name: key }) )
+      scene.models.push( Object.assign( {}, { name: key, idModel: sceneDATA.models[ key ].idModel } ) )
     }
   } )  
 }
@@ -116,30 +117,22 @@ const getPathToModelsData = DATA => {
 
 /*******************************************************************/
 
-const setClickLoadScene = () => ui.setClickGetIdScene( ( idScene ) => sc.loadScene( idScene ) )
+const setClickLoadScene = () => ui.setClickGetIdScene( ( idScene ) => { 
+    setTimeout( () => { sc.loadScene( idScene ) }, 500 )   
+  } )
 
 const setClickHideModel = () => ui.setClickGetIdHideModel( ( idModel ) => sc.hideModel( idModel ) )
   
 const setClickShowModel = () => ui.setClickGetIdShowModel( ( idModel ) => sc.showModel( idModel ) ) 
 
+const setClickTranspModel = () => ui.setClickGetIdTranspModel( ( idModel ) => sc.transpModel( idModel ) ) 
+
+const setClickRedModel = () => ui.setClickGetIdRedModel( ( idModel ) => { 
+  console.log('setClick:', idModel )
+  sc.redModel( idModel ) 
+} ) 
 
 /*
-const setClickTranspModel = () => {
-  ui.setClickGetNameTranspModel( ( layerName, sceneName ) => {
-    if (  currentSceneName != sceneName ) return  
-    sc.transpModel( layerName )    
-  } ) 
-}
-
-
-const setClickRedModel = () => {
-  ui.setClickGetNameRedModel( ( layerName, sceneName ) => {
-    if (  currentSceneName != sceneName ) return  
-    sc.redModel( layerName )    
-  } ) 
-}
-
-
 const setClickNormalModel = () => {
   ui.setClickGetNameNormalModel( ( layerName, sceneName ) => {
     if (  currentSceneName != sceneName ) return  

@@ -60,7 +60,6 @@ const drawFrame = () => {
 /*******************************************************************/
 
 const loadNewScene = idScene => {
-  console.log( idScene )
   removeOldScene()
   arrLinks = prepearArrLinks( idScene, ARR_MODELS )
   addNewScene()
@@ -70,7 +69,7 @@ const removeOldScene = () => {
   arrMeshes.forEach( ( item, index, arr ) => {
     scene.remove( item.geom ) 
     item.geom = null
-    item.name = null
+    item.idModel = null
     item.mtl = null 
   } ) 
   arrMeshes = []
@@ -113,7 +112,6 @@ const startLoadModel = c => {
 
 
 const loadModel = v => {
-  console.log( v )
   new THREE.MTLLoader().setTexturePath( v.textures )
     .load( v.mtl, ( materials ) => {
       let modelElems = {}
@@ -126,7 +124,7 @@ const loadModel = v => {
           ( object ) => {
             modelElems.geom = object 
             scene.add( modelElems.geom )
-            modelElems.name = v.name
+            modelElems.idModel = v.idModel
             arrMeshes.push( modelElems ) 
           }, 
         () => {}, 
@@ -149,9 +147,9 @@ const showModel = id => {
   l.geom.position.y = 0
 }
 
-/*
-const transpModel = v => {
-  let l = getLinkModelByName( v )  
+
+const transpModel = id => {
+  let l = getLinkModelById( id )  
   let m = new THREE.MeshPhongMaterial( { color: 0x999999, transparent: true, opacity: 0.3 } ) 
   for ( let i = 0; i < l.geom.children.length; i ++ ) {
     l.geom.children[ i ].material = m
@@ -159,15 +157,16 @@ const transpModel = v => {
 }  
 
 
-const redModel = v => {
-  let l = getLinkModelByName( v )  
+const redModel = id => {
+  console.log('redModelScene:', id )
+  let l = getLinkModelById( id )  
   let m = new THREE.MeshPhongMaterial( { color: 0xff0000, transparent: true, opacity: 1.0 } ) 
   for ( let i = 0; i < l.geom.children.length; i ++ ) {
     l.geom.children[ i ].material = m
   }   
 } 
 
-
+/*
 const normalModel = v => {
   console.log('!')
   let l = getLinkModelByName( v )  
@@ -179,6 +178,7 @@ const normalModel = v => {
 /*******************************************************************/
 
 const getLinkModelById = v => {
+  console.log( arrMeshes )
   for ( let i = 0; i < arrMeshes.length; i ++  ) {
     if ( arrMeshes[ i ].idModel == v ) return arrMeshes[ i ] 
   }

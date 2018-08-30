@@ -86,54 +86,5 @@ const SCENES = [
         mtl: 'floor.mtl'
       }
     }
-  },
-  {
-    name: 'Шаровые стены',
-    path: 'scene3',     
-    project: 'Paзное',         
-    models: {
-      'кровля черепичная': {
-        obj: 'roof.obj',
-        mtl: 'roof.mtl'
-      },
-      'стена круглая': {
-        obj: 'walls.obj',
-        mtl: 'walls.mtl'
-      },
-      'отметка 0': {
-        obj: 'glass.obj',
-        mtl: 'glass.mtl'
-      }
-    }
-  },   
-  {
-    name: 'Ковчег',
-    path: 'scene4',     
-    project: 'Разное',         
-    models: {
-      'стены': {
-        obj: 'walls.obj',
-        mtl: 'walls.mtl'
-      },
-      'пол': {
-        obj: 'floor.obj',
-        mtl: 'floor.mtl'
-      }
-    }
-  },  
-  {
-    name: 'Арт-обьект',
-    path: 'scene5',      
-    project: 'Разное',        
-    models: {
-      'стены': {
-        obj: 'walls.obj',
-        mtl: 'walls.mtl'
-      },
-      'пол': {
-        obj: 'floor.obj',
-        mtl: 'floor.mtl'
-      }
-    }
-  }                          
+  }                    
 ]
