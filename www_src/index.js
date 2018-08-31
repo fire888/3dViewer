@@ -93,6 +93,7 @@ const setModelsInSceneTree = ( scene, DATA ) => {
   } )  
 }
 
+
 const getPathToModelsData = DATA => {
   let modelId = 0
   let arr = []
@@ -127,10 +128,7 @@ const setClickShowModel = () => ui.setClickGetIdShowModel( ( idModel ) => sc.sho
 
 const setClickTranspModel = () => ui.setClickGetIdTranspModel( ( idModel ) => sc.transpModel( idModel ) ) 
 
-const setClickRedModel = () => ui.setClickGetIdRedModel( ( idModel ) => { 
-  console.log('setClick:', idModel )
-  sc.redModel( idModel ) 
-} ) 
+const setClickRedModel = () => ui.setClickGetIdRedModel( ( idModel ) => sc.redModel( idModel ) ) 
 
 /*
 const setClickNormalModel = () => {
@@ -142,67 +140,5 @@ const setClickNormalModel = () => {
 */
 
 /*******************************************************************/
-
-const getSceneKey = v => {
-  let s = null
-  for ( let key in MODELS ) {
-    if ( MODELS[ key ].name == v ) s = MODELS[ key ]
-  }
-  return s
-} 
-
-
-
-
-
-
-
-
-
-/*******************************************************************/
-
-const getProj = () => {
-  let arrProjects = []
-  for ( let key in MODELS ) {
-    let isInArray = false   
-    arrProjects.forEach( ( item, index, arr ) => {
-      arr[ index ] == MODELS[ key ].project ? isInArray = true : isInArray = false 
-    }  )
-    if ( isInArray == false ) arrProjects.push( MODELS[ key ].project ) 
-  }
-  return arrProjects
-} 
-
-
-const getScenes = n => {
-  let arrScenes = []
-  for ( let key in MODELS ) {   
-    if ( n == MODELS[key].project ) arrScenes.push( MODELS[ key ].name ) 
-  }  
-  return arrScenes
-}
-
-
-const getImgPathPreviewScene = v => {
-  let path = ''
-  for ( let key in MODELS ) { 
-    if ( MODELS[key].name == v ) path = MODELS[key].preview
-  } 
-  return path 
-}
-
-
-const getModels = v => {
-  let layers = []
-  for ( let key in MODELS ) { 
-    if ( MODELS[ key ].name == v ) {
-      for ( let l in MODELS[ key ].layers ) {
-        layers.push( l ) 
-      }
-    }
-  } 
-  return layers
-}
-
 
 

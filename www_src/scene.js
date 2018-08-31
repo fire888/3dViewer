@@ -168,14 +168,12 @@ const redModel = id => {
 
 /*
 const normalModel = v => {
-  console.log('!')
   let l = getLinkModelByName( v )  
-  l.geom.setMaterials( l.mtl )
 } 
 */
 
-
 /*******************************************************************/
+
 
 const getLinkModelById = v => {
   console.log( arrMeshes )
@@ -184,9 +182,8 @@ const getLinkModelById = v => {
   }
 } 
 
-
-
 /********************************************************************/
+
 
 const addTestBox = () => { 
   scene.add( new THREE.Mesh(

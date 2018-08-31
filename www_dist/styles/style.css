@@ -15,23 +15,30 @@ body {
   background: -o-linear-gradient(top,#8a808e,#b0ba89); /*Opera 11.1-12*/
   background: -moz-linear-gradient(top,#8a808e,#b0ba89); /*Fx 3.6-15*/
   background: linear-gradient(to bottom, #8a808e, #b0ba89); /*Standard*/
-  color: #1c2025;
+  color: #20090c;
 }
+
 
 #ui {
   position: absolute;
   left: 10px;
-  top: 10px;
+  top: 30px;
+} 
+
+#uiTree {
   background:rgba(233, 233, 233, 0.87);
   border-style: solid;
   border-width: 6px;
-  border-color: #070808;
+  border-color: #20090c;
   min-width: 300px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .logo {
-  margin: 5px 5px 15px 5px;  
+  font-size: 40px;
+  font-weight: 1500; 
+  margin: -28px 5px -10px 5px; 
+  text-align: center;   
 }
 
 .project {
@@ -43,11 +50,11 @@ body {
   color: #f3f3f3;
   padding: 15px 0px 15px 10px;
   cursor: pointer;
-  background:rgba(139, 139, 139, 0.87);
+  background:rgba(82, 79, 79, 0.87);
 }
 
 .projName:hover {
-  color: #2b2b2b; 
+  color: #20090c;
 }
 
 hr {
@@ -90,6 +97,11 @@ hr {
   transition: 1.0s;
 }
 
+.sceneHeader {
+  display: flex;
+  flex-direction: row;
+}
+
 .previewScene {
   transition: 0.3s;
   height: 80px;
@@ -106,11 +118,26 @@ hr {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
+.sceneName, .currentSceneName {
+  margin: 10px 15px 0px 5px;
+  padding: 7px 3px 7px 15px;
+  max-height: 20px;
+  flex: 1 0 auto;
+  font-size: 15px;
+}
+
+.currentSceneName {
+  color: #ebebeb;
+  /*border-radius: 3px;*/  
+}
+
 .model {
-  margin: 3px 5px 0px 25px;
+  margin: 3px 15px 0px 0px;
+  padding: 2px 10px 2px 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: #f3f3f3;
 }
 
 .modelName {
@@ -125,13 +152,15 @@ hr {
 }
 
 .hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
+  text-align: center;
   margin: 0px 5px;
   color: #63676b; 
   cursor: pointer;
+  min-width: 60px; 
 }
 
 .showModelButton {
-  background-color: rgb(151, 156, 152);
+  background-color: rgba(82, 79, 79, 0.87);
   color: #ffffff;
 }
 

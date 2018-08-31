@@ -36,12 +36,9 @@ const setClickNormalModel = idModel => { /*** */ }
 
 
 
-
 /*******************************************************************/
 
-
 const initUi = ( uiTreeDATA ) => {
-
   addUiPropsInTree( uiTreeDATA )
   let reducers = createReducers()
   store = Redux.createStore( reducers, uiTreeDATA  )  
@@ -49,7 +46,6 @@ const initUi = ( uiTreeDATA ) => {
   renderUiTreeReact()
 }
 
-/*******************************************************************/
 
 const addUiPropsInTree = ( uiTreeDATA ) => {
   uiTreeDATA.forEach( ( project, idProj ) => {
@@ -103,16 +99,6 @@ const createReducers = () => {
 } 
 
 
-const renderUiTreeReact = () => {
-  ReactDOM.render( 
-    <App store = { store }/>, 
-    document.getElementById( 'ui' ) 
-  )
-}
-
-
-/*******************************************************************/
-
 const openProjectAction = uiIndexProject => {
   return {
     type: 'OPEN_PROJECT',
@@ -133,6 +119,14 @@ const openSceneAndCloseAnoterAction = ( uiIndexScene, uiIndexProject ) => {
     uiIndexScene,
     uiIndexProject
   }
+}
+
+
+const renderUiTreeReact = () => {
+  ReactDOM.render( 
+    <App store = { store }/>, 
+    document.getElementById( 'ui' ) 
+  )
 }
 
 
@@ -168,7 +162,10 @@ class App extends React.Component {
     return ( 
       <div>
         <Logo />
-        { projects }
+        <div className = 'uiTree'>
+          { projects }
+        </div>
+        <hr/>
       </div> 
     )
   }
@@ -259,13 +256,21 @@ class Scene extends React.Component {
         idScene = { this.props.idScene }
       />
     } )
-    let anim 
-    this.props.isOpen ? anim = 'animOpen' : anim = 'animClose'     
+    let anim, current 
+    if ( this.props.isOpen ) { 
+      anim = 'animOpen'
+      current = 'currentSceneName' 
+    } else { 
+      anim = 'animClose'
+      current = 'sceneName'
+    }      
      
     return (
       <div className = 'scene' onClick = { this.clickFunction.bind( this ) }>
-        { img } 
-        <p>{ this.props.name }</p>
+        <div className = 'sceneHeader'>
+          { img } 
+          <div className = { current } >{ this.props.name }</div>
+        </div>  
         <div className = { anim } >
           { models }
         </div>
@@ -319,14 +324,12 @@ class HideModelBtn extends React.Component {
   render() {
     var txt, cl
     if ( this.state.btnOn ) {
-      txt = 'show'
       cl = 'showModelButton' 
     } else {
-      txt = 'hide' 
       cl = 'hideModelButton'
     }  
     return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>скрыть</div> 
     )
   } 
 } 
@@ -351,14 +354,12 @@ class TranspModelBtn extends React.Component {
   render() {
     var txt, cl
     if ( this.state.btnOn ) {
-      txt = 'unTransp'
       cl = 'showModelButton' 
-    } else {
-      txt = 'transp' 
+    } else { 
       cl = 'hideModelButton'
     }  
     return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>прозр</div> 
     )
   } 
 } 
@@ -383,14 +384,12 @@ class RedModelBtn extends React.Component {
   render() {
     var txt, cl
     if ( this.state.btnOn ) {
-      txt = 'unRed'
       cl = 'showModelButton' 
     } else {
-      txt = 'red' 
       cl = 'hideModelButton'
     }  
     return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>{ txt }</div> 
+      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>красный</div> 
     )
   } 
 } 
