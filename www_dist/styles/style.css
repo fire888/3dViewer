@@ -131,6 +131,14 @@ hr {
   /*border-radius: 3px;*/  
 }
 
+.sceneName {
+  cursor: pointer;
+}
+
+.sceneName:hover {
+  color: #f2fac3;
+}
+
 .model {
   margin: 3px 15px 0px 0px;
   padding: 2px 10px 2px 15px;
