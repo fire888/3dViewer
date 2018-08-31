@@ -20,7 +20,7 @@ window.onload = () => {
   /*
   setClickNormalModel()  
   */
-  setTimeout( () => { sc.loadScene( 0 ) }, 400 )
+  setTimeout( () => { sc.loadScene( 0, ui.sceneLoadedOn ) }, 400 )
 }
 
 
@@ -118,9 +118,14 @@ const getPathToModelsData = DATA => {
 
 /*******************************************************************/
 
-const setClickLoadScene = () => ui.setClickGetIdScene( ( idScene ) => { 
-    setTimeout( () => { sc.loadScene( idScene ) }, 500 )   
-  } )
+const setClickLoadScene = () => ui.setClickGetIdScene( 
+  ( idScene ) => { 
+    setTimeout( () => { 
+      sc.loadScene( idScene, ui.sceneLoadedOn ) 
+    }, 500 ) 
+  },
+)
+
 
 const setClickHideModel = () => ui.setClickGetIdHideModel( ( idModel ) => sc.hideModel( idModel ) )
   

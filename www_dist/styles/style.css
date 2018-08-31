@@ -10,36 +10,81 @@
 
 body {
   font-family: 'roboto';
-  background: #8a808e; /* Old Browsers */
-  background: -webkit-linear-gradient(top,#8a808e,#b0ba89); /*Safari 5.1-6*/
-  background: -o-linear-gradient(top,#8a808e,#b0ba89); /*Opera 11.1-12*/
-  background: -moz-linear-gradient(top,#8a808e,#b0ba89); /*Fx 3.6-15*/
-  background: linear-gradient(to bottom, #8a808e, #b0ba89); /*Standard*/
+  background: #8a808e; 
+  background: -webkit-linear-gradient(top,#8a808e,#b0ba89); 
+  background: -o-linear-gradient(top,#8a808e,#b0ba89); 
+  background: -moz-linear-gradient(top,#8a808e,#b0ba89); 
+  background: linear-gradient(to bottom, #8a808e, #b0ba89);
   color: #20090c;
 }
 
-
 #ui {
+  margin: 15px;
+  z-index: 100;
   position: absolute;
-  left: 10px;
-  top: 30px;
+  left: 0px;
+  top: 15px;
 } 
 
-#uiTree {
-  background:rgba(233, 233, 233, 0.87);
-  border-style: solid;
-  border-width: 6px;
-  border-color: #20090c;
-  min-width: 300px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
 
-.logo {
+/*******************************************************************/
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
   font-size: 40px;
   font-weight: 1500; 
-  margin: -28px 5px -10px 5px; 
   text-align: center;   
 }
+
+.logo, .rollHeader {
+  color: #20090c;  
+  margin-bottom: -10px;  
+}
+
+.animateLogo {
+  animation: animatonLogo 0.4s ease infinite;
+}
+
+.logo {  
+  flex: 1 1 auto;
+  text-align: center; 
+}
+
+.rollHeader {
+  text-align: right; 
+  flex: 1 1 auto; 
+  padding-top: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  transition: 0.6s;
+}
+
+.rollHeader:hover {
+  padding-top: 0px;
+  padding-bottom: 10px;
+  color: #ebebeb;
+} 
+
+/*******************************************************************/
+
+.animOpenTree, .animCloseTree {
+  /*max-height: 300px;*/
+  overflow: hidden;
+}
+
+.animOpenTree {
+  animation: animatonClose 0.4s ease-in 1;
+
+}
+
+.animCloseTree {
+  animation: animatonOpen 0.4s ease-in 1;
+}
+
+/*******************************************************************/
 
 .project {
   font-size: 15px;
@@ -48,7 +93,7 @@ body {
 .projName {
   transition: 0.3s;
   color: #f3f3f3;
-  padding: 15px 0px 15px 10px;
+  padding: 7px 0px 7px 10px;
   cursor: pointer;
   background:rgba(82, 79, 79, 0.87);
 }
@@ -63,6 +108,105 @@ hr {
   background-color: #0f1113;
   height: 4px;
 }
+
+
+/*******************************************************************/
+
+.scene {
+  font-size: 12px;
+  margin: 5px 0px 10px 20px;
+  transition: 1.0s;
+}
+
+.sceneHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.previewScene {
+  transition: 0.3s;
+  height: 60px;
+  width: 60px;
+  margin-right: 15px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #6d6f74;
+  border-radius: 3px;
+  cursor: pointer;
+  flex: 0 0 60px;
+}
+
+.previewScene:hover {
+  border-color: #f2fac3;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.sceneName, .currentSceneName {
+  margin-top: 10px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px;
+}
+
+.sceneName {
+  cursor: pointer;
+}
+
+.sceneName:hover {
+  color: #f2fac3;
+}
+
+.currentSceneName {
+  color: #ebebeb;
+}
+
+
+/*******************************************************************/
+
+.model {
+  margin: 3px 0px 0px 0px;
+  padding: 2px 10px 2px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background-color: #f3f3f3;
+}
+
+.modelName {
+  flex: 1 0 auto;
+}
+
+.modelButtons {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
+  flex: 0 1 auto;
+  text-align: right;
+  margin: 0px 5px;
+  color: #63676b; 
+  cursor: pointer;
+}
+
+.showModelButton {
+  background-color: rgba(82, 79, 79, 0.87);
+  color: #ffffff;
+}
+
+.hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {
+  color: #240606; 
+}
+
+
+/*******************************************************************/
 
 @keyframes animatonOpen {
   from { max-height: 0px; }
@@ -90,88 +234,19 @@ hr {
   animation: animatonClose 0.4s ease-out 1;
 }
 
-
-.scene {
-  font-size: 12px;
-  margin: 5px 0px 10px 20px;
-  transition: 1.0s;
+@keyframes animatonLogo {
+  from { 
+    padding-left: 0px;
+    padding-right: 0px; 
+  }
+  50% { 
+    padding-left: 30px; 
+    padding-right: -30px;
+  }
+  to { 
+    padding-left: 0px; 
+    padding-right: 0px; 
+  }
 }
 
-.sceneHeader {
-  display: flex;
-  flex-direction: row;
-}
-
-.previewScene {
-  transition: 0.3s;
-  height: 80px;
-  width: auto;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #6d6f74;
-  border-radius: 3px;
-  cursor: pointer;  
-}
-
-.previewScene:hover {
-  border-color: #f2fac3;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.sceneName, .currentSceneName {
-  margin: 10px 15px 0px 5px;
-  padding: 7px 3px 7px 15px;
-  max-height: 20px;
-  flex: 1 0 auto;
-  font-size: 15px;
-}
-
-.currentSceneName {
-  color: #ebebeb;
-  /*border-radius: 3px;*/  
-}
-
-.sceneName {
-  cursor: pointer;
-}
-
-.sceneName:hover {
-  color: #f2fac3;
-}
-
-.model {
-  margin: 3px 15px 0px 0px;
-  padding: 2px 10px 2px 15px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #f3f3f3;
-}
-
-.modelName {
-  flex: 1 0 auto;
-}
-
-.modelButtons {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
-  text-align: center;
-  margin: 0px 5px;
-  color: #63676b; 
-  cursor: pointer;
-  min-width: 60px; 
-}
-
-.showModelButton {
-  background-color: rgba(82, 79, 79, 0.87);
-  color: #ffffff;
-}
-
-.hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {
-  color: #240606; 
-}
+/*******************************************************************/

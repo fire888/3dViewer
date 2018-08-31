@@ -9,7 +9,7 @@ const sc = {
     ARR_MODELS = data 
     createWebGl()
   },
-  loadScene: ( v ) => loadNewScene( v ),
+  loadScene: ( v, f ) => loadNewScene( v, f ),
   hideModel: ( v ) => hideModel( v ),
   showModel: ( v ) => showModel( v ),
   transpModel: ( v ) => transpModel( v ), 
@@ -59,10 +59,10 @@ const drawFrame = () => {
 
 /*******************************************************************/
 
-const loadNewScene = idScene => {
+const loadNewScene = ( idScene, loadOn ) => {
   removeOldScene()
   arrLinks = prepearArrLinks( idScene, ARR_MODELS )
-  addNewScene()
+  addNewScene( loadOn )
 } 
 
 const removeOldScene = () => {
@@ -96,18 +96,21 @@ const prepearArrLinks = ( idScene, DATA ) => {
 }     
   
 
-const addNewScene = () => {
+const addNewScene = ( loadOn ) => {
   let c = 0
-  startLoadModel( c )
+  startLoadModel( c, loadOn )
 }
 
 
-const startLoadModel = c => {
-  if ( c >= arrLinks.length ) return 
+const startLoadModel = ( c, loadOn ) => {
+  if ( c >= arrLinks.length ) { 
+    loadOn()
+    return
+  }   
   
   loadModel( arrLinks[ c ] )
   c ++
-  startLoadModel( c )
+  startLoadModel( c, loadOn )
 }   
 
 

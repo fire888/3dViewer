@@ -13,11 +13,14 @@ export { ui }
 const ui = {
   init: ( uiTreeDATA ) => initUi( uiTreeDATA ),
   setClickGetIdScene: ( f ) => { returnIdScene = f },
+  sceneLoadedOn: () => { stopAnimateLogo() },
   setClickGetIdHideModel: ( f ) => { clickHideModel = f },
   setClickGetIdShowModel: ( f ) => { clickShowModel = f },
   setClickGetIdTranspModel: ( f ) => { clickTranspModel = f },
   setClickGetIdRedModel: ( f ) => { clickRedModel = f }
 }
+
+let logo 
 
 let store,
 returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel
@@ -44,6 +47,9 @@ const initUi = ( uiTreeDATA ) => {
   store = Redux.createStore( reducers, uiTreeDATA  )  
   store.subscribe( renderUiTreeReact )
   renderUiTreeReact()
+  
+  let l = document.getElementsByClassName( 'logo' )
+  logo = l[0]
 }
 
 
@@ -130,11 +136,21 @@ const renderUiTreeReact = () => {
 }
 
 
+/********************************************************************/
+
+const startAnimateLogo = () => logo.className += ' animateLogo'  
+
+const stopAnimateLogo = () => logo.className = 'logo'
+
+
 /*******************************************************************/
 
 class App extends React.Component {
   constructor( props ) {
-    super( props ) 
+    super( props )
+    this.state = {
+      isOpen: false
+    } 
   }
   getContextChild() {
     return {
@@ -149,6 +165,9 @@ class App extends React.Component {
   componentWillUnmount() {
     this.unsubscribe()
   }  
+  onClickRoll() {
+    this.state.isOpen ? this.setState( { isOpen: false } ) : this.setState( { isOpen: true } )
+  }
   render() {   
     const projects = store.getState().map( ( item, index ) => {
       return <Project
@@ -158,11 +177,22 @@ class App extends React.Component {
         isOpen = { item.isOpen }
         isCurrent = { item.isCurrent }
       />
-    } )     
+    } )
+    var isOpen, rollText
+    if ( this.state.isOpen ) { 
+      isOpen = 'animOpen'
+      rollText = <span>&#9650;</span> 
+    } else {
+      isOpen = 'animClose'
+      rollText = <span>&#9660;</span>
+    }  
     return ( 
       <div>
-        <Logo />
-        <div className = 'uiTree'>
+        <div className='header'>
+          <div className = 'logo'>Viewer</div>
+          <div className = 'rollHeader' onClick = { this.onClickRoll.bind( this ) }>{ rollText }</div>
+        </div>
+        <div className = { isOpen } >
           { projects }
         </div>
         <hr/>
@@ -179,19 +209,6 @@ App.childContextTypes = {
   store: PropTypes.object.isRequired
 }
 
-
-
-class Logo extends React.Component {
-  render() {
-    return (
-      <div className = 'logo'> 3D Viewer </div>
-    )
-  }
-}
-
-Logo.contextTypes = {
-  store: PropTypes.object
-}
 
 
 
@@ -245,6 +262,7 @@ class Scene extends React.Component {
     if ( this.props.isOpen == true ) return
     store.dispatch( openSceneAndCloseAnoterAction( this.props.uiIndexScene, this.props.uiIndexProject ) )  
     setClickOnScene( this.props.idScene )
+    startAnimateLogo()
   }
   render() {
     const imgSrc =  'assets/' + this.props.path + '/preview.png'
