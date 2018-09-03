@@ -101,7 +101,6 @@ const prepearArrLinks = ( idScene, DATA ) => {
   
 
 const addNewScene = () => {
-  loadStartF()
   let c = 0
   startLoadModel( c )
 }
@@ -111,7 +110,7 @@ const startLoadModel = ( c ) => {
   if ( c >= arrLinks.length ) return
   
   let f = () => {}
-  if ( c == arrLinks.length -1 ) f = loadOnF
+  if ( c == arrLinks.length - 1 ) f = loadOnF
 
 
   loadModel( arrLinks[ c ], f )
@@ -203,3 +202,4 @@ const addTestBox = () => {
     new THREE.MeshBasicMaterial( { color: 0xff0000 } ) 
   ) )
 }
+

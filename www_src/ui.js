@@ -195,11 +195,6 @@ class App extends React.Component {
       isOpen = 'animClose'
       rollText = <span>&#9660;</span>
     }
-   /* let h = window.innerHeight
-    const treeStyle = {
-      maxHeight: h - 100 + 'px',
-      overflow: 'auto'
-    };*/
     return ( 
       <div>
         <div className='header'>
@@ -208,7 +203,7 @@ class App extends React.Component {
         </div>
         <hr/>
         <div className = { isOpen }>
-          { projects }
+            { projects }
         </div>
       </div> 
     )

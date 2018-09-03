@@ -121,7 +121,7 @@ const setClickLoadScene = () => ui.setClickGetIdScene(
     setTimeout( () => { 
       sc.loadNewScene( idScene, ui.sceneStartLoad, ui.sceneLoadedOn ) 
     }, 500 ) 
-  },
+  }
 )
 
 
@@ -134,8 +134,5 @@ const setClickTranspModel = () => ui.setClickGetIdTranspModel( ( idModel ) => sc
 const setClickRedModel = () => ui.setClickGetIdRedModel( ( idModel ) => sc.redModel( idModel ) ) 
 
 const setClickMtlModel = () => ui.setClickGetNameMtlModel( ( idModel ) => sc.setMtlMaterial( idModel ) )
-
-
-/*******************************************************************/
 
 
