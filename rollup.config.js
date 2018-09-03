@@ -77,8 +77,8 @@ export default {
       // 'development' or 'production' depending on which kind of build you
       // are making.
       replace({
-         //'process.env.NODE_ENV': JSON.stringify( 'production' )
-		 'process.env.NODE_ENV': JSON.stringify( 'development' )
+         'process.env.NODE_ENV': JSON.stringify( 'production' )
+		    //'process.env.NODE_ENV': JSON.stringify( 'development' )
       }),
  
       // configuration for the uglify minifier.
@@ -89,11 +89,11 @@ export default {
             warnings: false
          },
          output: {
-            //comments: false
-			comments: true
+            comments: false
+			      //comments: true
          },
-         //sourceMap: false
-         sourceMap: true		 
+         sourceMap: false
+         //sourceMap: true		 
       })
    ]
 }

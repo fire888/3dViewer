@@ -14,16 +14,19 @@ const ui = {
   init: ( uiTreeDATA ) => initUi( uiTreeDATA ),
   setClickGetIdScene: ( f ) => { returnIdScene = f },
   sceneLoadedOn: () => { stopAnimateLogo() },
+  sceneStartLoad: () => { startAnimateLogo() },
   setClickGetIdHideModel: ( f ) => { clickHideModel = f },
   setClickGetIdShowModel: ( f ) => { clickShowModel = f },
   setClickGetIdTranspModel: ( f ) => { clickTranspModel = f },
-  setClickGetIdRedModel: ( f ) => { clickRedModel = f }
+  setClickGetIdRedModel: ( f ) => { clickRedModel = f },
+  setClickGetNameMtlModel: ( f ) => { clickMtlMaterial = f }
 }
 
-let logo 
 
+let logo 
 let store,
-returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel
+returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel, clickMtlMaterial
+
 
 const setClickOnScene = idScene => returnIdScene( idScene )
 
@@ -35,7 +38,8 @@ const setClickTranspModel = idModel => clickTranspModel( idModel )
 
 const setClickRedModel = idModel => clickRedModel( idModel )
 
-const setClickNormalModel = idModel => { /*** */ }
+const setClickGetNameMtlModel = idModel => clickMtlMaterial( idModel ) 
+
 
 
 
@@ -47,9 +51,8 @@ const initUi = ( uiTreeDATA ) => {
   store = Redux.createStore( reducers, uiTreeDATA  )  
   store.subscribe( renderUiTreeReact )
   renderUiTreeReact()
-  
-  let l = document.getElementsByClassName( 'logo' )
-  logo = l[0]
+ 
+  logo = getLogo()
 }
 
 
@@ -138,9 +141,15 @@ const renderUiTreeReact = () => {
 
 /********************************************************************/
 
+const getLogo = () => {
+  let l = document.getElementsByClassName( 'logo' )
+  return l[0]
+} 
+
 const startAnimateLogo = () => logo.className += ' animateLogo'  
 
 const stopAnimateLogo = () => logo.className = 'logo'
+
 
 
 /*******************************************************************/
@@ -185,17 +194,22 @@ class App extends React.Component {
     } else {
       isOpen = 'animClose'
       rollText = <span>&#9660;</span>
-    }  
+    }
+   /* let h = window.innerHeight
+    const treeStyle = {
+      maxHeight: h - 100 + 'px',
+      overflow: 'auto'
+    };*/
     return ( 
       <div>
         <div className='header'>
           <div className = 'logo'>Viewer</div>
           <div className = 'rollHeader' onClick = { this.onClickRoll.bind( this ) }>{ rollText }</div>
         </div>
-        <div className = { isOpen } >
+        <hr/>
+        <div className = { isOpen }>
           { projects }
         </div>
-        <hr/>
       </div> 
     )
   }
@@ -240,12 +254,12 @@ class Project extends React.Component {
       />
     } )     
     return (
-      <div className = 'project'>
-        <hr/>      
+      <div className = 'project'>     
         <div className = 'projName' onClick = { this.clickClose.bind( this ) }>{ this.props.name }</div>
         <div className = { anim }>
         { scenes }
         </div>
+        <hr/> 
       </div>
     )
   }    
@@ -262,13 +276,18 @@ class Scene extends React.Component {
     if ( this.props.isOpen == true ) return
     store.dispatch( openSceneAndCloseAnoterAction( this.props.uiIndexScene, this.props.uiIndexProject ) )  
     setClickOnScene( this.props.idScene )
-    startAnimateLogo()
   }
   render() {
     const imgSrc =  'assets/' + this.props.path + '/preview.png'
-    const img = <img src = { imgSrc } className = 'previewScene'/>
+    var img 
+    if ( this.props.isOpen ) {
+      img = <img src = { imgSrc } className = 'previewSceneCurrent'/>
+    } else {
+      img = <img src = { imgSrc } className = 'previewScene'/>      
+    }  
     const models = store.getState()[ this.props.uiIndexProject ].scenes[ this.props.uiIndexScene ].models.map( ( item, index ) => { 
       return <Model 
+        key = { index }
         name = { item.name }
         idModel = { item.idModel }
         idScene = { this.props.idScene }
@@ -281,8 +300,7 @@ class Scene extends React.Component {
     } else { 
       anim = 'animClose'
       current = 'sceneName'
-    }      
-     
+    }       
     return (
       <div className = 'scene' onClick = { this.clickFunction.bind( this ) }>
         <div className = 'sceneHeader'>
@@ -307,11 +325,7 @@ class Model extends React.Component {
     return ( 
       <div className = 'model'>
         <div className = 'modelName'>{ this.props.name } </div>
-        <div className = 'modelButtons'>
-          <HideModelBtn idModel = { this.props.idModel } />
-          <TranspModelBtn idModel = { this.props.idModel } /> 
-          <RedModelBtn idModel = { this.props.idModel } /> 
-        </div>           
+        <BtnsModel idModel = { this.props.idModel } />
       </div>    
     )
   }
@@ -322,92 +336,66 @@ Model.contextTypes = {
 }
 
 
-class HideModelBtn extends React.Component {
+class BtnsModel extends React.Component {
   constructor() {
     super()
     this.state = {
-      btnOn: false
+      btnHideOn: false,
+      btnMatOn: 'none' // | 'transp' | 'red'
     }
   }
-  clickFunction () {
-    console.log( 'props.idModel: ', this.props.idModel )
-    if ( this.state.btnOn ) {
-      this.setState( { btnOn: false } )
+  clickHideFunction () {
+    if ( this.state.btnHideOn ) {
+      this.setState( { btnHideOn: false } )
       setClickShowModel( this.props.idModel )
     } else {
-      this.setState( { btnOn: true } )
+      this.setState( { btnHideOn: true } )
       setClickHideModel( this.props.idModel )
     } 
   }
-  render() {
-    var txt, cl
-    if ( this.state.btnOn ) {
-      cl = 'showModelButton' 
-    } else {
-      cl = 'hideModelButton'
-    }  
-    return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>скрыть</div> 
-    )
-  } 
-} 
-
-
-class TranspModelBtn extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      btnOn: false
-    }
-  }
-  clickFunction () {
-    if ( this.state.btnOn ) {
-      this.setState( { btnOn: false } )
-      setClickNormalModel( this.props.idModel )
-    } else {
-      this.setState( { btnOn: true } )
+  clickTranspFunction () {
+    if ( this.state.btnMatOn != 'transp' ) {
+      this.setState( { btnMatOn: 'transp' } )
       setClickTranspModel( this.props.idModel )
+    } else {
+      this.setState( { btnMatOn: 'none' } )
+      setClickGetNameMtlModel( this.props.idModel )
     } 
   }
-  render() {
-    var txt, cl
-    if ( this.state.btnOn ) {
-      cl = 'showModelButton' 
-    } else { 
-      cl = 'hideModelButton'
-    }  
-    return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>прозр</div> 
-    )
-  } 
-} 
-
-
-class RedModelBtn extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      btnOn: false
-    }
-  }
-  clickFunction () {
-    if ( this.state.btnOn ) {
-      this.setState( { btnOn: false } )
-      setClickNormalModel( this.props.idModel )
-    } else {
-      this.setState( { btnOn: true } )
+  clickRedFunction () {
+    if ( this.state.btnMatOn !='red' ) {
+      this.setState( { btnMatOn: 'red' } )
       setClickRedModel( this.props.idModel )
-    } 
-  }
-  render() {
-    var txt, cl
-    if ( this.state.btnOn ) {
-      cl = 'showModelButton' 
     } else {
-      cl = 'hideModelButton'
+      this.setState( { btnMatOn: 'none' } )
+      setClickGetNameMtlModel( this.props.idModel )
+    } 
+  }    
+  render() {
+    var txt, clHide, clTransp, clRed
+    if ( this.state.btnHideOn ) {
+      clHide = 'btnOn' 
+    } else {
+      clHide = 'btnOff'
+    }
+    if ( this.state.btnMatOn == 'none' ) {
+      clTransp = 'btnOff'
+      clRed = 'btnOff'  
+    } 
+    if (  this.state.btnMatOn == 'transp' ) { 
+      clTransp = 'btnOn'
+      clRed = 'btnOff' 
     }  
+    if (  this.state.btnMatOn == 'red' ) { 
+      clTransp = 'btnOff'
+      clRed = 'btnOn' 
+    }         
     return(
-      <div className = { cl } onClick = { this.clickFunction.bind( this ) }>красный</div> 
+      <div className = 'modelButtons'>
+        <div className = { clHide } onClick = { this.clickHideFunction.bind( this ) }>СК</div>
+        <div className = { clTransp } onClick = { this.clickTranspFunction.bind( this ) }>ПР</div> 
+        <div className = { clRed } onClick = { this.clickRedFunction.bind( this ) }>КР</div> 
+      </div>
     )
   } 
 } 

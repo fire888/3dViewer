@@ -9,17 +9,19 @@ const sc = {
     ARR_MODELS = data 
     createWebGl()
   },
-  loadScene: ( v, f ) => loadNewScene( v, f ),
+  loadNewScene: ( v, fStart, fOn ) => loadNewScene( v, fStart, fOn ),
   hideModel: ( v ) => hideModel( v ),
   showModel: ( v ) => showModel( v ),
   transpModel: ( v ) => transpModel( v ), 
   redModel: ( v ) => redModel( v ),
-  normalModel: ( v ) => normalModel( v ),    
+  normalModel: ( v ) => normalModel( v ),
+  setMtlMaterial: ( v ) => setMtlMaterial( v )   
 }
 
 
 /*******************************************************************/
 
+let loadOnF = () => {}, loadStartF = () => {}
 let ARR_MODELS 
 let controls, scene, camera, renderer,
 arrMeshes = [], arrLinks = []
@@ -38,7 +40,7 @@ const createWebGl = () => {
   let pointL = new THREE.PointLight( 0xffffff, 2.0 )
   pointL.position.set( -400, 300, 1600 )
   scene.add( pointL )
-  let lightAmb = new THREE.AmbientLight( 0xadd6eb, 0.3 )
+  let lightAmb = new THREE.AmbientLight( 0xadd6eb, 0.5 )
   scene.add( lightAmb )
 
   renderer = new THREE.WebGLRenderer( { alpha: true } )
@@ -59,16 +61,18 @@ const drawFrame = () => {
 
 /*******************************************************************/
 
-const loadNewScene = ( idScene, loadOn ) => {
+const loadNewScene = ( idScene, loadStart, loadOn ) => {
+  loadOnF = loadOn
+  loadStart()
   removeOldScene()
   arrLinks = prepearArrLinks( idScene, ARR_MODELS )
-  addNewScene( loadOn )
+  addNewScene()
 } 
 
 const removeOldScene = () => {
   arrMeshes.forEach( ( item, index, arr ) => {
-    scene.remove( item.geom ) 
-    item.geom = null
+    scene.remove( item.mesh ) 
+    item.mesh = null
     item.idModel = null
     item.mtl = null 
   } ) 
@@ -96,25 +100,27 @@ const prepearArrLinks = ( idScene, DATA ) => {
 }     
   
 
-const addNewScene = ( loadOn ) => {
+const addNewScene = () => {
+  loadStartF()
   let c = 0
-  startLoadModel( c, loadOn )
+  startLoadModel( c )
 }
 
 
-const startLoadModel = ( c, loadOn ) => {
-  if ( c >= arrLinks.length ) { 
-    loadOn()
-    return
-  }   
+const startLoadModel = ( c ) => {
+  if ( c >= arrLinks.length ) return
   
-  loadModel( arrLinks[ c ] )
+  let f = () => {}
+  if ( c == arrLinks.length -1 ) f = loadOnF
+
+
+  loadModel( arrLinks[ c ], f )
   c ++
-  startLoadModel( c, loadOn )
+  startLoadModel( c )
 }   
 
 
-const loadModel = v => {
+const loadModel = ( v, on ) => {
   new THREE.MTLLoader().setTexturePath( v.textures )
     .load( v.mtl, ( materials ) => {
       let modelElems = {}
@@ -125,15 +131,18 @@ const loadModel = v => {
         .load( 
           v.obj, 
           ( object ) => {
-            modelElems.geom = object 
-            scene.add( modelElems.geom )
+            object.children.forEach( element => {
+              element.objMtlMaterialName = element.material.name
+            })
+            modelElems.mesh = object 
+            scene.add( modelElems.mesh )
             modelElems.idModel = v.idModel
             arrMeshes.push( modelElems ) 
-          }, 
-        () => {}, 
-        () => {} 
+          }
       )
-  } )  
+    }, 
+    () => { on() } 
+    )  
 }
 
 
@@ -141,52 +150,52 @@ const loadModel = v => {
 
 const hideModel = id => {
   let l = getLinkModelById( id ) 
-  l.geom.position.y = 10000
+  l.mesh.position.y = 10000
 }
 
 
 const showModel = id => {
   let l = getLinkModelById( id ) 
-  l.geom.position.y = 0
+  l.mesh.position.y = 0
 }
 
 
 const transpModel = id => {
   let l = getLinkModelById( id )  
   let m = new THREE.MeshPhongMaterial( { color: 0x999999, transparent: true, opacity: 0.3 } ) 
-  for ( let i = 0; i < l.geom.children.length; i ++ ) {
-    l.geom.children[ i ].material = m
-  }   
+  for ( let i = 0; i < l.mesh.children.length; i ++ ) {
+    l.mesh.children[ i ].material = m
+  }
 }  
 
 
 const redModel = id => {
-  console.log('redModelScene:', id )
   let l = getLinkModelById( id )  
   let m = new THREE.MeshPhongMaterial( { color: 0xff0000, transparent: true, opacity: 1.0 } ) 
-  for ( let i = 0; i < l.geom.children.length; i ++ ) {
-    l.geom.children[ i ].material = m
+  for ( let i = 0; i < l.mesh.children.length; i ++ ) {
+    l.mesh.children[ i ].material = m
   }   
-} 
+}
 
-/*
-const normalModel = v => {
-  let l = getLinkModelByName( v )  
-} 
-*/
+const setMtlMaterial = id => {
+  let l = getLinkModelById( id )  
+  for ( let i = 0; i < l.mesh.children.length; i ++ ) {
+   let key = l.mesh.children[ i ].objMtlMaterialName    
+   l.mesh.children[ i ].material = l.mtl.materials[ key ]   
+  }     
+}
+
 
 /*******************************************************************/
 
-
 const getLinkModelById = v => {
-  console.log( arrMeshes )
   for ( let i = 0; i < arrMeshes.length; i ++  ) {
     if ( arrMeshes[ i ].idModel == v ) return arrMeshes[ i ] 
   }
 } 
 
-/********************************************************************/
 
+/********************************************************************/
 
 const addTestBox = () => { 
   scene.add( new THREE.Mesh(

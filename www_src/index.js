@@ -17,10 +17,8 @@ window.onload = () => {
   setClickShowModel()
   setClickTranspModel()
   setClickRedModel()
-  /*
-  setClickNormalModel()  
-  */
-  setTimeout( () => { sc.loadScene( 0, ui.sceneLoadedOn ) }, 400 )
+  setClickMtlModel()  
+  setTimeout( () => { sc.loadNewScene( 0, ui.sceneStartLoad, ui.sceneLoadedOn ) }, 400 )
 }
 
 
@@ -47,7 +45,7 @@ const setIdIdendIficatorInScenes = arr => {
 
 const getUiTreeData = DATA => {
   let tree = setProjectsInUiTree( DATA )
-  tree.forEach ( ( proj ) => {
+  tree.forEach( ( proj ) => {
     setScenesInProjectTree( proj, DATA ) 
     proj.scenes.forEach( ( scene ) => {
       setModelsInSceneTree( scene, DATA )
@@ -85,7 +83,7 @@ const setScenesInProjectTree = ( proj, DATA ) => {
 
 const setModelsInSceneTree = ( scene, DATA ) => {
   DATA.forEach( ( sceneDATA, index ) => {
-    if ( sceneDATA.name != scene.name ) return
+    if ( sceneDATA.idScene != scene.idScene ) return
     scene.models = [] 
     for ( let key in sceneDATA.models ) {
       scene.models.push( Object.assign( {}, { name: key, idModel: sceneDATA.models[ key ].idModel } ) )
@@ -121,7 +119,7 @@ const getPathToModelsData = DATA => {
 const setClickLoadScene = () => ui.setClickGetIdScene( 
   ( idScene ) => { 
     setTimeout( () => { 
-      sc.loadScene( idScene, ui.sceneLoadedOn ) 
+      sc.loadNewScene( idScene, ui.sceneStartLoad, ui.sceneLoadedOn ) 
     }, 500 ) 
   },
 )
@@ -135,14 +133,8 @@ const setClickTranspModel = () => ui.setClickGetIdTranspModel( ( idModel ) => sc
 
 const setClickRedModel = () => ui.setClickGetIdRedModel( ( idModel ) => sc.redModel( idModel ) ) 
 
-/*
-const setClickNormalModel = () => {
-  ui.setClickGetNameNormalModel( ( layerName, sceneName ) => {
-    if (  currentSceneName != sceneName ) return  
-    sc.normalModel( layerName )    
-  } ) 
-}
-*/
+const setClickMtlModel = () => ui.setClickGetNameMtlModel( ( idModel ) => sc.setMtlMaterial( idModel ) )
+
 
 /*******************************************************************/
 

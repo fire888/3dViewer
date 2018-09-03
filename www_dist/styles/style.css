@@ -16,6 +16,7 @@ body {
   background: -moz-linear-gradient(top,#8a808e,#b0ba89); 
   background: linear-gradient(to bottom, #8a808e, #b0ba89);
   color: #20090c;
+  overflow: hidden;
 }
 
 #ui {
@@ -71,8 +72,7 @@ body {
 /*******************************************************************/
 
 .animOpenTree, .animCloseTree {
-  /*max-height: 300px;*/
-  overflow: hidden;
+  overflow: auto;
 }
 
 .animOpenTree {
@@ -138,6 +138,20 @@ hr {
   flex: 0 0 60px;
 }
 
+.previewSceneCurrent {
+  transition: 0.3s;
+  height: 60px;
+  width: 60px;
+  margin-right: 15px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  cursor: pointer;
+  flex: 0 0 60px;
+}
+
 .previewScene:hover {
   border-color: #f2fac3;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -160,13 +174,14 @@ hr {
 }
 
 .currentSceneName {
-  color: #ebebeb;
+  color: #ffffff;
 }
 
 
 /*******************************************************************/
 
 .model {
+  font-size: 13px;
   margin: 3px 0px 0px 0px;
   padding: 2px 10px 2px 15px;
   display: flex;
@@ -188,7 +203,9 @@ hr {
   flex-wrap: wrap;
 }
 
-.hideModelButton, .showModelButton, .transpModelButton, .redModelButton, .normalModelButton {
+.hideModelButton, .showModelButton, .btnOn, .btnOff {
+  padding: 0px 3px 0px 3px;
+  font-size: 13px;
   flex: 0 1 auto;
   text-align: right;
   margin: 0px 5px;
@@ -196,12 +213,13 @@ hr {
   cursor: pointer;
 }
 
-.showModelButton {
+.showModelButton, .btnOn{
+  padding: 0px 3px 0px 3px;
   background-color: rgba(82, 79, 79, 0.87);
   color: #ffffff;
 }
 
-.hideModelButton:hover, .showModelButton:hover, .transpModelButton:hover, .redModelButton:hover, .normalModelButton:hover {
+.hideModelButton:hover, .showModelButton:hover, .btnOff:hover, .btnOn:hover  {
   color: #240606; 
 }
 
@@ -250,3 +268,36 @@ hr {
 }
 
 /*******************************************************************/
+
+::-webkit-scrollbar-button {
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:6px;
+  height:0px
+  }
+  
+  ::-webkit-scrollbar-track {
+  background-color:#32312e;
+  box-shadow:0px 0px 3px #000 inset;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color:#ffcb17;
+  box-shadow:0px 1px 1px #fff inset;
+  background-image:url('https://yraaa.ru/_pu/24/59610063.png');
+  background-position:center;
+  background-repeat:no-repeat;
+  }
+  
+  ::-webkit-resizer{
+  background-image:url('');
+  background-repeat:no-repeat;
+  width:7px;
+  height:0px
+  }
+  
+  ::-webkit-scrollbar{
+  width: 11px;
+  }

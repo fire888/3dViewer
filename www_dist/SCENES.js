@@ -1,7 +1,7 @@
 
 const SCENES = [
   {
-    name: 'Многобашенный замок',
+    name: 'Многобашенный замок',   //ПРОЕКТ 1
     path: 'scene1',
     project: 'Замки из кирпича',        
     models: {
@@ -57,7 +57,7 @@ const SCENES = [
       }
     }
   },   
-  {
+  {                                    //ПРОЕКТ 2
     name: 'Ковчег',
     path: 'scene4',     
     project: 'Крепости из дерева',         
@@ -86,5 +86,216 @@ const SCENES = [
         mtl: 'floor.mtl'
       }
     }
-  }                    
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Крепости из дерева',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },     
+  {                                //ПРОЕКТ 3
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Разное',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Группа замков',
+    path: 'scene2',
+    project: 'Замки из кирпича',     
+    models: {
+     'крыша': {
+       obj: 'roof.obj',
+       mtl: 'roof.mtl'
+      },
+      'цилиндры': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl',
+      },
+      'газон': {
+        obj: 'glass.obj',
+        mtl: 'glass.mtl'
+      }
+    }
+  },
+  {
+    name: 'Группа замков',
+    path: 'scene2',
+    project: 'Замки из кирпича',     
+    models: {
+     'крыша': {
+       obj: 'roof.obj',
+       mtl: 'roof.mtl'
+      },
+      'цилиндры': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl',
+      },
+      'газон': {
+        obj: 'glass.obj',
+        mtl: 'glass.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Разное',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Разное',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Замки из кирпича',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },     
+  {                                //ПРОЕКТ 3
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Вперемешку',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Группа замков',
+    path: 'scene2',
+    project: 'Замки из кирпича',     
+    models: {
+     'крыша': {
+       obj: 'roof.obj',
+       mtl: 'roof.mtl'
+      },
+      'цилиндры': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl',
+      },
+      'газон': {
+        obj: 'glass.obj',
+        mtl: 'glass.mtl'
+      }
+    }
+  },
+  {
+    name: 'Группа замков',
+    path: 'scene2',
+    project: 'Вперемешку 2',     
+    models: {
+     'крыша': {
+       obj: 'roof.obj',
+       mtl: 'roof.mtl'
+      },
+      'цилиндры': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl',
+      },
+      'газон': {
+        obj: 'glass.obj',
+        mtl: 'glass.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Вперемешку 2',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Разное',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  },
+  {
+    name: 'Арт-обьект',
+    path: 'scene5',      
+    project: 'Вперемешку 2',        
+    models: {
+      'стены': {
+        obj: 'walls.obj',
+        mtl: 'walls.mtl'
+      },
+      'пол': {
+        obj: 'floor.obj',
+        mtl: 'floor.mtl'
+      }
+    }
+  }                            
 ]
