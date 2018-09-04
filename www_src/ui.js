@@ -26,6 +26,7 @@ const ui = {
 let logo 
 let store,
 returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel, clickMtlMaterial
+var scrollPixels = 0, isBlockClallbackScroll = false
 
 
 const setClickOnScene = idScene => returnIdScene( idScene )
@@ -142,14 +143,19 @@ const renderUiTreeReact = () => {
 /********************************************************************/
 
 const setCustomScrollBar = () => {
-//  $('#mCSB_1').css( { maxHeight: '1000px' } )
-
   $('.content').mCustomScrollbar({
-    theme:"minimal-dark"
+    theme:"inset-2-dark",
+    callbacks:{
+      onScroll: function() { 
+        if ( isBlockClallbackScroll ) return
+        scrollPixels = this.mcs.draggerTop 
+      }
+  }    
   })
 }
 
 const hideScrollBar = () => {
+  isBlockClallbackScroll = false
   $('.content').css( { overflow: 'hidden'} )
 }
 
@@ -158,10 +164,9 @@ const getLogo = () => {
   return l[0]
 } 
 
-const startAnimateLogo = () => logo.className += ' animateLogo'  
+const startAnimateLogo = () => {}
 
-const stopAnimateLogo = () => logo.className = 'logo'
-
+const stopAnimateLogo = () => {}
 
 
 /*******************************************************************/
@@ -170,7 +175,8 @@ class App extends React.Component {
   constructor( props ) {
     super( props )
     this.state = {
-      isOpen: true
+      isOpen: true,
+      isOpenNav: false
     } 
   }
   getContextChild() {
@@ -187,7 +193,20 @@ class App extends React.Component {
     this.unsubscribe()
   }  
   onClickRoll() {
-    this.state.isOpen ? this.setState( { isOpen: false } ) : this.setState( { isOpen: true } )
+    if ( this.state.isOpen ) { 
+      isBlockClallbackScroll = true
+       this.setState( { isOpen: false } )
+    } else {
+       setTimeout( ()=> { $('.content').mCustomScrollbar('scrollTo', scrollPixels + '' ); }, 800 )  
+       this.setState( { isOpen: true } )
+    }
+  }
+  burgerClick() {
+    if ( this.state.isOpenNav) {
+      this.setState( { isOpenNav: false } )
+    } else {
+      this.setState( { isOpenNav: true } )      
+    }
   }
   render() {   
     const projects = store.getState().map( ( item, index ) => {
@@ -199,7 +218,7 @@ class App extends React.Component {
         isCurrent = { item.isCurrent }
       />
     } )
-    let h = window.innerHeight - 100 + 'px'
+    let h = window.innerHeight - 80 + 'px'
     var styleTree
     var isOpen, rollText
     if ( this.state.isOpen ) { 
@@ -209,7 +228,7 @@ class App extends React.Component {
         maxHeight: h,
         overflow: 'hidden'
       }
-      $('#mCSB_1').css( { maxHeight: h, display: 'block' } )   
+      $('#mCSB_1').css( { maxHeight: h, display: 'block' } ) 
     } else {
       $('#mCSB_1').css( { display: 'block' } )  
       isOpen = 'treeClose content mCustomScrollbar'
@@ -218,12 +237,19 @@ class App extends React.Component {
         maxHeight: '0px',
         overflow: 'hidden'
       }
+      setTimeout( () => { hideScrollBar() }, 800 )
     }
-    setTimeout( () => { hideScrollBar() }, 400 )
+    var nav = null, burgerTxt = <span>&#8801;</span>
+    if ( this.state.isOpenNav ) {
+      nav = 
+      burgerTxt = <span>&times;</span>
+    }
     return ( 
       <div>
+        <MainNavigation isOpen = { this.state.isOpenNav }/>
         <div className='header'>
-          <div className = 'logo'>Viewer</div>
+          <div className = 'burger' onClick = { this.burgerClick.bind( this ) }>{ burgerTxt }</div>
+          <div className = 'logo'>{ PAGE.title }</div>
           <div className = 'rollHeader' onClick = { this.onClickRoll.bind( this ) }>{ rollText }</div>
         </div>
         <hr className = 'hrTree'/>
@@ -242,6 +268,31 @@ App.propTypes = {
 
 App.childContextTypes = {
   store: PropTypes.object.isRequired
+}
+
+
+class MainNavigation extends React.Component {  
+  render() {
+    var cl = 'mainNavigation animOpen'
+    if ( ! this.props.isOpen ) { cl = 'mainNavigation animClose' }
+    const nav = PAGE.links.map( ( item, index ) => { 
+        if ( item.title == PAGE.title) { 
+          return null
+        } else {
+          return (
+            <div className = 'navigationItem' key = { index } >
+              <a key = { index } href = {item.reference }> { item.title } </a>
+              <hr className='hrTree'/>
+            </div>
+          )
+        }  
+    } ) 
+    return <div className = { cl }> { nav }</div>
+  }    
+}
+
+MainNavigation.contextTypes = {
+  store: PropTypes.object
 }
 
 

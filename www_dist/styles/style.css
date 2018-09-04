@@ -20,12 +20,42 @@ body {
 }
 
 #ui {
-  margin: 15px;
+  margin: 5px 30px 5px 5px;
   z-index: 100;
   position: absolute;
   left: 0px;
-  top: 15px;
+  top: 0px;
 } 
+
+
+/*******************************************************************/
+
+
+.mainNavigation {
+  text-align: center;
+  padding: 0px;
+  background-color: #cecece;
+  display: flex;
+  flex-direction: column;
+  font-weight: 1500;   
+  font-size: 18px;
+}
+
+.navigationItem {
+  padding: 10px 0px 0px 0px;
+}
+
+.mainNavigation a {
+  color: #202020;
+  margin: 5px;
+  text-decoration: none;
+}
+
+
+.mainNavigation a:hover {
+  color: #ffffff;
+}
+
 
 
 /*******************************************************************/
@@ -35,36 +65,46 @@ body {
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
-  font-size: 40px;
   font-weight: 1500;  
 }
 
-.logo, .rollHeader {
+.logo, .rollHeader .burger {
   color: #20090c;  
-  margin-bottom: -10px;  
+  margin-bottom: -20px;  
 }
 
-.animateLogo {
-  animation: animatonLogo 0.4s ease infinite;
+.burger {
+  margin-top: -10px;
+  margin-bottom: -15px;
+  padding-left: 10px;
+  flex: 1 1 auto;
+  text-align: left;
+  font-size: 40px; 
+  cursor: pointer; 
+}
+
+.burger:hover {
+  color: #ffffff;  
 }
 
 .logo {  
+  padding-top: 5px;
+  padding-left: 10px;
   flex: 1 1 auto;
-  text-align: center; 
+  text-align: left;
+  font-size: 18px; 
 }
 
 .rollHeader {
   text-align: right; 
   flex: 1 1 auto; 
-  padding-top: 10px;
-  font-size: 30px;
+  padding-top: 0px;
+  font-size: 28px;
   cursor: pointer;
   transition: 0.6s;
 }
 
 .rollHeader:hover {
-  padding-top: 0px;
-  padding-bottom: 10px;
   color: #ebebeb;
 } 
 
@@ -89,11 +129,12 @@ body {
   animation: animatonOpen 0.4s ease-in 1;
 }
 
+
 /*******************************************************************/
 
 .project {
-  font-size: 15px;
-  margin-right: 17px;
+  font-size: 13px;
+  margin-right: 25px;
 }
 
 .projName {
@@ -126,7 +167,6 @@ body {
 /*******************************************************************/
 
 .scene {
-  font-size: 12px;
   margin: 5px 0px 10px 3px;
   transition: 1.0s;
 }
@@ -140,29 +180,29 @@ body {
 
 .previewScene {
   transition: 0.3s;
-  height: 60px;
-  width: 60px;
-  margin-right: 15px;
+  height: 50px;
+  width: 50px;
+  margin-right: 7px;
   border-style: solid;
   border-width: 2px;
   border-color: #6d6f74;
   border-radius: 3px;
   cursor: pointer;
-  flex: 0 0 60px;
+  flex: 0 0 50px;
 }
 
 .previewSceneCurrent {
   transition: 0.3s;
-  height: 60px;
-  width: 60px;
-  margin-right: 15px;
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
   border-style: solid;
   border-width: 2px;
   border-color: #ffffff;
   border-radius: 3px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   cursor: pointer;
-  flex: 0 0 60px;
+  flex: 0 0 50px;
 }
 
 .previewScene:hover {
@@ -175,7 +215,7 @@ body {
   flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .sceneName {
@@ -194,7 +234,7 @@ body {
 /*******************************************************************/
 
 .model {
-  font-size: 15px;
+  font-size: 13px;
   margin: 3px 0px 0px 0px;
   padding: 2px 10px 2px 15px;
   display: flex;
@@ -204,8 +244,15 @@ body {
   background-color: #8b8b8b8e;
 }
 
+.hrModel {
+  border: none;
+  color: #141414d5;
+  background-color: #141414d5;
+  height: 1px;
+}
+
 .modelName {
-  margin-top: 5px;
+  margin: 5px 15px 0px 0px;
   flex: 1 0 auto;
 }
 
@@ -230,7 +277,6 @@ body {
 }
 
 .btnOn, .btnOff {
-  padding: 3px;
   flex: 0 1 auto;
   text-align: right;
   margin: 4px 4px;
@@ -238,8 +284,8 @@ body {
 }
 
 .btnOff {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-style: solid;
   border-width: 2px;
   border-color: #000000;
@@ -247,8 +293,8 @@ body {
 }
 
 .btnOn {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-style: solid;
   border-width: 2px;
   border-color: #ffffff;
