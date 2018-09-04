@@ -51,7 +51,7 @@ const initUi = ( uiTreeDATA ) => {
   store = Redux.createStore( reducers, uiTreeDATA  )  
   store.subscribe( renderUiTreeReact )
   renderUiTreeReact()
- 
+  setCustomScrollBar()
   logo = getLogo()
 }
 
@@ -141,6 +141,18 @@ const renderUiTreeReact = () => {
 
 /********************************************************************/
 
+const setCustomScrollBar = () => {
+//  $('#mCSB_1').css( { maxHeight: '1000px' } )
+
+  $('.content').mCustomScrollbar({
+    theme:"minimal-dark"
+  })
+}
+
+const hideScrollBar = () => {
+  $('.content').css( { overflow: 'hidden'} )
+}
+
 const getLogo = () => {
   let l = document.getElementsByClassName( 'logo' )
   return l[0]
@@ -158,7 +170,7 @@ class App extends React.Component {
   constructor( props ) {
     super( props )
     this.state = {
-      isOpen: false
+      isOpen: true
     } 
   }
   getContextChild() {
@@ -187,24 +199,38 @@ class App extends React.Component {
         isCurrent = { item.isCurrent }
       />
     } )
+    let h = window.innerHeight - 100 + 'px'
+    var styleTree
     var isOpen, rollText
     if ( this.state.isOpen ) { 
-      isOpen = 'animOpen'
-      rollText = <span>&#9650;</span> 
+      isOpen = 'treeOpen content mCustomScrollbar'
+      rollText = <span>&#9650;</span>
+      styleTree = {
+        maxHeight: h,
+        overflow: 'hidden'
+      }
+      $('#mCSB_1').css( { maxHeight: h, display: 'block' } )   
     } else {
-      isOpen = 'animClose'
+      $('#mCSB_1').css( { display: 'block' } )  
+      isOpen = 'treeClose content mCustomScrollbar'
       rollText = <span>&#9660;</span>
+      styleTree = {
+        maxHeight: '0px',
+        overflow: 'hidden'
+      }
     }
+    setTimeout( () => { hideScrollBar() }, 400 )
     return ( 
       <div>
         <div className='header'>
           <div className = 'logo'>Viewer</div>
           <div className = 'rollHeader' onClick = { this.onClickRoll.bind( this ) }>{ rollText }</div>
         </div>
-        <hr/>
-        <div className = { isOpen }>
+        <hr className = 'hrTree'/>
+        <div className = { isOpen } style = { styleTree }>
             { projects }
         </div>
+        <hr className = 'hrTree'/>
       </div> 
     )
   }
@@ -251,10 +277,10 @@ class Project extends React.Component {
     return (
       <div className = 'project'>     
         <div className = 'projName' onClick = { this.clickClose.bind( this ) }>{ this.props.name }</div>
+        <hr className = 'hrProj'/>
         <div className = { anim }>
         { scenes }
         </div>
-        <hr/> 
       </div>
     )
   }    
@@ -369,27 +395,27 @@ class BtnsModel extends React.Component {
   render() {
     var txt, clHide, clTransp, clRed
     if ( this.state.btnHideOn ) {
-      clHide = 'btnOn' 
+      clHide = 'btnOn btnHide' 
     } else {
-      clHide = 'btnOff'
+      clHide = 'btnOff btnHide'
     }
     if ( this.state.btnMatOn == 'none' ) {
-      clTransp = 'btnOff'
-      clRed = 'btnOff'  
+      clTransp = 'btnOff btnTransp'
+      clRed = 'btnOff btnRed'  
     } 
     if (  this.state.btnMatOn == 'transp' ) { 
-      clTransp = 'btnOn'
-      clRed = 'btnOff' 
+      clTransp = 'btnOn btnTransp'
+      clRed = 'btnOff btnRed' 
     }  
     if (  this.state.btnMatOn == 'red' ) { 
-      clTransp = 'btnOff'
-      clRed = 'btnOn' 
+      clTransp = 'btnOff btnTransp'
+      clRed = 'btnOn btnRed' 
     }         
     return(
       <div className = 'modelButtons'>
-        <div className = { clHide } onClick = { this.clickHideFunction.bind( this ) }>СК</div>
-        <div className = { clTransp } onClick = { this.clickTranspFunction.bind( this ) }>ПР</div> 
-        <div className = { clRed } onClick = { this.clickRedFunction.bind( this ) }>КР</div> 
+        <img src = 'styles/but.png' className = { clHide } onClick = { this.clickHideFunction.bind( this ) }/>
+        <img src = 'styles/but.png' className = { clTransp } onClick = { this.clickTranspFunction.bind( this ) }/>
+        <img src = 'styles/but.png' className = { clRed } onClick = { this.clickRedFunction.bind( this ) }/>
       </div>
     )
   } 
