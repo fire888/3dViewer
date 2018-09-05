@@ -30,10 +30,9 @@ body {
 
 /*******************************************************************/
 
-
 .mainNavigation {
   text-align: center;
-  background-color: #cecece;
+  background-color: #cececec0;
   display: flex;
   flex-direction: column;  
   font-size: 18px;
@@ -44,7 +43,7 @@ body {
 }
 
 .mainNavigation a {
-  color: #202020;
+  color: #535353;
   margin: 5px;
   text-decoration: none;
 }
@@ -100,9 +99,10 @@ body {
 } 
 
 .content {
-  margin-right: 5px;
+  padding-right: 5px; 
   transition: 0.5s;
   overflow: hidden;
+  background-color: #4e58523b
 }
 
 /*******************************************************************/
@@ -278,9 +278,9 @@ body {
 
 @keyframes animatonOpen {
   from { max-height: 0px; }
-  50% { max-height: 0px;}
-  75% { max-height: 50px;}
-  to { max-height: 1000px;}
+  50% { max-height: 0px; }
+  75% { max-height: 50px; }
+  to { max-height: 1000px; }
 }
 
 @keyframes animatonClose {

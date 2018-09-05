@@ -21,6 +21,7 @@ window.onload = () => {
 }
 
 
+
 const checkIsDataSCENES = () => {
   if ( typeof SCENES != 'undefined' ) return true 
   alert( 'no data scenes' )
@@ -91,6 +92,7 @@ const setModelsInSceneTree = ( scene, DATA ) => {
 }
 
 
+
 const getPathToModelsData = DATA => {
   let modelId = 0
   let arr = []
@@ -122,7 +124,6 @@ const setClickLoadScene = () => ui.setClickGetIdScene(
     }, 500 ) 
   }
 )
-
 
 const setClickHideModel = () => ui.setClickGetIdHideModel( ( idModel ) => sc.hideModel( idModel ) )
   
