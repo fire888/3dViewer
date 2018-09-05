@@ -1,3 +1,5 @@
+
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as Redux from 'redux'
@@ -22,10 +24,10 @@ const ui = {
   setClickGetNameMtlModel: ( f ) => { clickMtlMaterial = f }
 }
 
-
-let logo 
+ 
 let store,
 returnIdScene, clickHideModel, clickShowModel, clickTranspModel, clickRedModel, clickMtlMaterial
+
 var scrollPixels = 0, isBlockClallbackScroll = false
 
 
@@ -42,8 +44,6 @@ const setClickRedModel = idModel => clickRedModel( idModel )
 const setClickGetNameMtlModel = idModel => clickMtlMaterial( idModel ) 
 
 
-
-
 /*******************************************************************/
 
 const initUi = ( uiTreeDATA ) => {
@@ -53,7 +53,6 @@ const initUi = ( uiTreeDATA ) => {
   store.subscribe( renderUiTreeReact )
   renderUiTreeReact()
   setCustomScrollBar()
-  logo = getLogo()
 }
 
 
@@ -108,7 +107,6 @@ const createReducers = () => {
   return r  
 } 
 
-
 const openProjectAction = uiIndexProject => {
   return {
     type: 'OPEN_PROJECT',
@@ -131,7 +129,6 @@ const openSceneAndCloseAnoterAction = ( uiIndexScene, uiIndexProject ) => {
   }
 }
 
-
 const renderUiTreeReact = () => {
   ReactDOM.render( 
     <App store = { store }/>, 
@@ -143,10 +140,10 @@ const renderUiTreeReact = () => {
 /********************************************************************/
 
 const setCustomScrollBar = () => {
-  $('.content').mCustomScrollbar({
-    theme:"inset-2-dark",
-    callbacks:{
-      onScroll: function() { 
+  $( '.content' ).mCustomScrollbar( {
+    theme: 'inset-2-dark',
+    callbacks: {
+      onScroll: () => { 
         if ( isBlockClallbackScroll ) return
         scrollPixels = this.mcs.draggerTop 
       }
@@ -159,11 +156,6 @@ const hideScrollBar = () => {
   $('.content').css( { overflow: 'hidden'} )
 }
 
-const getLogo = () => {
-  let l = document.getElementsByClassName( 'logo' )
-  return l[0]
-} 
-
 const startAnimateLogo = () => {}
 
 const stopAnimateLogo = () => {}
@@ -172,6 +164,7 @@ const stopAnimateLogo = () => {}
 /*******************************************************************/
 
 class App extends React.Component {
+  
   constructor( props ) {
     super( props )
     this.state = {
@@ -179,6 +172,7 @@ class App extends React.Component {
       isOpenNav: false
     } 
   }
+  
   getContextChild() {
     return {
       store: this.props.store
@@ -192,22 +186,26 @@ class App extends React.Component {
   componentWillUnmount() {
     this.unsubscribe()
   }  
+  
   onClickRoll() {
     if ( this.state.isOpen ) { 
       isBlockClallbackScroll = true
        this.setState( { isOpen: false } )
     } else {
-       setTimeout( ()=> { $('.content').mCustomScrollbar('scrollTo', scrollPixels + '' ); }, 800 )  
-       this.setState( { isOpen: true } )
+      setTimeout( ()=> { 
+        $('.content').mCustomScrollbar('scrollTo', scrollPixels + '' ) 
+      }, 800 )  
+      this.setState( { isOpen: true } )
     }
   }
   burgerClick() {
-    if ( this.state.isOpenNav) {
+    if ( this.state.isOpenNav ) {
       this.setState( { isOpenNav: false } )
     } else {
       this.setState( { isOpenNav: true } )      
     }
   }
+  
   render() {   
     const projects = store.getState().map( ( item, index ) => {
       return <Project
@@ -247,14 +245,14 @@ class App extends React.Component {
     return ( 
       <div>
         <MainNavigation isOpen = { this.state.isOpenNav }/>
-        <div className='header'>
+        <div className = 'header'>
           <div className = 'burger' onClick = { this.burgerClick.bind( this ) }>{ burgerTxt }</div>
           <div className = 'logo'>{ PAGE.title }</div>
           <div className = 'rollHeader' onClick = { this.onClickRoll.bind( this ) }>{ rollText }</div>
         </div>
         <hr className = 'hrTree'/>
         <div className = { isOpen } style = { styleTree }>
-            { projects }
+          { projects }
         </div>
         <hr className = 'hrTree'/>
       </div> 
@@ -274,28 +272,26 @@ App.childContextTypes = {
 class MainNavigation extends React.Component {  
   render() {
     var cl = 'mainNavigation animOpen'
-    if ( ! this.props.isOpen ) { cl = 'mainNavigation animClose' }
+    if ( ! this.props.isOpen ) cl = 'mainNavigation animClose'
     const nav = PAGE.links.map( ( item, index ) => { 
-        if ( item.title == PAGE.title) { 
-          return null
-        } else {
-          return (
-            <div className = 'navigationItem' key = { index } >
-              <a key = { index } href = {item.reference }> { item.title } </a>
-              <hr className='hrTree'/>
-            </div>
-          )
-        }  
+      if ( item.title == PAGE.title) { 
+        return null
+      } else {
+        return (
+          <div className = 'navigationItem' key = { index } >
+            <a key = { index } href = {item.reference }> { item.title } </a>
+            <hr className='hrTree'/>
+          </div>
+        )
+      }  
     } ) 
-    return <div className = { cl }> { nav }</div>
+    return <div className = { cl }>{ nav }</div>
   }    
 }
 
 MainNavigation.contextTypes = {
   store: PropTypes.object
 }
-
-
 
 
 class Project extends React.Component {  
@@ -342,21 +338,13 @@ Project.contextTypes = {
 }
 
 
-
 class Scene extends React.Component {
   clickFunction() {
     if ( this.props.isOpen == true ) return
     store.dispatch( openSceneAndCloseAnoterAction( this.props.uiIndexScene, this.props.uiIndexProject ) )  
     setClickOnScene( this.props.idScene )
   }
-  render() {
-    const imgSrc =  'assets/' + this.props.path + '/preview.png'
-    var img 
-    if ( this.props.isOpen ) {
-      img = <img src = { imgSrc } className = 'previewSceneCurrent'/>
-    } else {
-      img = <img src = { imgSrc } className = 'previewScene'/>      
-    }  
+  render() {  
     const models = store.getState()[ this.props.uiIndexProject ].scenes[ this.props.uiIndexScene ].models.map( ( item, index ) => { 
       return <Model 
         key = { index }
@@ -365,13 +353,16 @@ class Scene extends React.Component {
         idScene = { this.props.idScene }
       />
     } )
-    let anim, current 
+    let anim, current, img
+    const imgSrc =  'assets/' + this.props.path + '/preview.png' 
     if ( this.props.isOpen ) { 
       anim = 'animOpen'
-      current = 'currentSceneName' 
+      current = 'currentSceneName'
+      img = <img src = { imgSrc } className = 'previewSceneCurrent'/>
     } else { 
       anim = 'animClose'
       current = 'sceneName'
+      img = <img src = { imgSrc } className = 'previewScene'/> 
     }       
     return (
       <div className = 'scene' onClick = { this.clickFunction.bind( this ) }>
