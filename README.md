@@ -1,7 +1,7 @@
 
 # 3dViewer  
 ![language](https://img.shields.io/badge/code-es6-green.svg) 
-![Build status](https://img.shields.io/badge/build-50%-red.svg) 
+![Build status](https://img.shields.io/badge/build-50%25-red.svg) 
 ![Stability status](https://img.shields.io/badge/stability-stable-green.svg) 
 ![License status](https://img.shields.io/badge/license-Beerware-green.svg) 
 
